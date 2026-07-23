@@ -81,12 +81,12 @@ export default function Header() {
     const transitionClass = isHeaderReady ? 'transition-all duration-300' : 'transition-none';
 
     return (
-        <div className={`sticky top-0 z-50 w-full flex flex-col ${transitionClass}`}>
+        <div className="sticky top-0 z-50 w-full flex flex-col">
             {/* Announcement bar solo en Hero */}
             <AnnouncementBar isVisible={isHeroVisible} isHeaderReady={isHeaderReady} />
             
-            <header className={`w-full bg-white ${transitionClass} ${isCompact ? 'border-b border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]' : ''}`}>
-                <Container size="wide" className={`flex justify-between items-center ${transitionClass} ${isCompact ? 'py-3' : 'py-5'}`}>
+            <header className={`w-full backdrop-blur-md border-b ${transitionClass} ${isCompact ? 'bg-white/85 border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]' : 'bg-white border-transparent'}`}>
+                <Container size="wide" className="flex justify-between items-center h-[100px]">
                     
                     <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] w-full items-center gap-4">
                         
@@ -96,9 +96,9 @@ export default function Header() {
                                 <img 
                                     src="/image/logo-only.png" 
                                     alt="Biznovatech Logo" 
-                                    className={`${transitionClass} ease-in-out ${isCompact ? 'w-10 md:w-14' : 'w-12 md:w-16'}`} 
+                                    className="w-16 md:w-20" 
                                 />
-                                <span className={`text-secondary font-semibold ${transitionClass} ${isCompact ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
+                                <span className="text-secondary font-semibold text-2xl md:text-3xl">
                                     Biznova<strong className="text-primary font-bold">tech</strong>
                                 </span>
                             </Link>
@@ -106,7 +106,7 @@ export default function Header() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden min-[1200px]:flex justify-center" ref={dropdownRef}>
-                            <ul className={`flex flex-row items-center text-t-secondary ${transitionClass} ${isCompact ? 'gap-10' : 'gap-7'}`}>
+                            <ul className="flex flex-row items-center text-t-secondary gap-10">
                                 {navigationData.map((item, index) => {
                                     const isDropdownOpen = openDropdown === index;
                                     const isActive = location.pathname.startsWith(item.href) && (item.href !== '/' || location.pathname === '/');
@@ -123,7 +123,7 @@ export default function Header() {
                                                     to={item.href}
                                                     className={`font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 ${
                                                         isActive ? 'text-gray-900 relative after:content-[""] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-blue-600 after:rounded-t-sm' : 'hover:text-gray-900'
-                                                    } ${isCompact ? 'text-sm' : 'text-base'}`}
+                                                    } text-lg`}
                                                 >
                                                     {item.label}
                                                 </Link>
@@ -168,7 +168,6 @@ export default function Header() {
                                 <Button 
                                     variant="secondary" 
                                     to="/contacto"
-                                    className={`${transitionClass} ${isCompact ? 'px-4 py-2 text-sm' : ''}`}
                                 >
                                     Agendar Reunion
                                     <Icon icon="solar:arrow-up-linear" className="w-5 h-5 rotate-45" />
