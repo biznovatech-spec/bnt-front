@@ -1,0 +1,50 @@
+import { Icon } from "@iconify/react";
+import Button from "../ui/button";
+import { company } from "../data/company";
+import { metrics } from "../data/metrics";
+
+export default function Hero() {
+    return (
+        <section className="w-full flex flex-col pt-8 pb-12 lg:pt-16 lg:pb-20" id="home">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                <article className="flex flex-col gap-8 w-full lg:w-[55%]">
+                    <h1 className="text-left text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] text-gray-900">
+                        Transformamos{" "}
+                        ideas en <span className="text-primary">soluciones</span>{" "}
+                        que impulsan tu proyecto
+                    </h1>
+                    <p className="text-lg text-t-secondary max-w-xl leading-relaxed">
+                        {company.heroDescription}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button variant="primary" to="/contacto">
+                            Cuéntanos tu idea
+                            <Icon icon="solar:arrow-up-linear" className="w-5 h-5 rotate-45" />
+                        </Button>
+                        <Button variant="secondary" to="/casos-de-exito">
+                            Ver casos de éxito
+                            <Icon icon="solar:arrow-up-linear" className="w-5 h-5 rotate-45" />
+                        </Button>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full mt-4 border-t border-gray-100 pt-8">
+                        {metrics.map((stat, index) => (
+                            <div key={index} className="flex flex-col items-start gap-1.5">
+                                <span className="text-2xl lg:text-3xl font-bold text-gray-900">{stat.value}</span>
+                                <span className="text-xs text-t-secondary leading-tight">{stat.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </article>
+                <aside className="w-full lg:w-[45%] flex justify-center lg:justify-end">
+                    <img
+                        src="/image/fondo-hero.png"
+                        alt="Ilustración 3D de tecnología y desarrollo"
+                        className="w-full max-w-md lg:max-w-none object-contain"
+                        width="600"
+                        height="600"
+                    />
+                </aside>
+            </div>
+        </section>
+    );
+}

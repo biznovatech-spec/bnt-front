@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  /* Marquee animation */
+  --animate-scroll: scroll 30s linear infinite;
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Fade-in animation */
+  --animate-fade-in: fade-in 0.4s ease-out both;
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Color tokens */
+  --color-primary: #0A84FF;
+  --color-primary-hover: #0066E8;
+
+  --color-secondary: #062A73;
+  --color-accent: #2DB5FF;
+
+  --color-background: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-dark: #0F172A;
+
+  --color-t-primary: #111827;
+  --color-t-secondary: #4B5563;
+
+  --color-border: #E5E7EB;
+
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  --header-compact-height: 70px;
+}
+
+section[id] {
+  scroll-margin-top: var(--header-compact-height);
+}
+
+/* Reduced motion: pause marquee and disable fade animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll {
+    animation-play-state: paused !important;
+  }
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Custom scrollbar for Atlas alphabet nav */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
