@@ -5,16 +5,28 @@
   --animate-scroll: scroll 30s linear infinite;
 
   @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   /* Fade-in animation */
   --animate-fade-in: fade-in 0.4s ease-out both;
 
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Color tokens */
@@ -22,9 +34,11 @@
   --color-primary-hover: #0066E8;
 
   --color-secondary: #062A73;
+  --color-tertiary: #25C6FD;
+  --color-tertiary-hover: #1DB0E6;
   --color-accent: #2DB5FF;
 
-  --color-background: #F7F8FA;
+  --color-background: #FFFFFF;
   --color-surface: #FFFFFF;
   --color-surface-dark: #0F172A;
 
@@ -49,6 +63,7 @@ section[id] {
   .animate-scroll {
     animation-play-state: paused !important;
   }
+
   .animate-fade-in {
     animation: none !important;
     opacity: 1 !important;
@@ -60,9 +75,11 @@ section[id] {
 .custom-scrollbar::-webkit-scrollbar {
   height: 4px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 2px;

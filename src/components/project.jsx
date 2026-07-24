@@ -23,7 +23,8 @@ export default function Project() {
                         to={project.link}
                         className="flex flex-col group rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-sm transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
-                        <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
+                        <div className="p-3 pb-0">
+                            <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-2xl">
                             <img
                                 src={project.image}
                                 alt={project.title}
@@ -32,9 +33,10 @@ export default function Project() {
                                 width="600"
                                 height="450"
                             />
-                            <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-lg shadow-sm">
-                                <span className="text-xs font-semibold text-primary">{project.type}</span>
+                            <div className="absolute bottom-3 left-3 bg-tertiary/10 px-3 py-1 rounded-lg shadow-sm border border-tertiary/20 backdrop-blur-sm">
+                                <span className="text-xs font-semibold text-tertiary">{project.type}</span>
                             </div>
+                        </div>
                         </div>
 
                         <div className="flex flex-col gap-2 p-5 flex-1">

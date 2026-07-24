@@ -13,7 +13,7 @@ export default function Footer() {
                         <Link to="/" className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md w-fit">
                             <img src="/image/logo-only.png" alt="Biznovatech Logo" className="w-12" />
                             <span className="text-white text-3xl font-semibold">
-                                Biznova<strong className="text-primary font-bold">tech</strong>
+                                Biznova<strong className="text-tertiary font-bold">tech</strong>
                             </span>
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs mt-2">

@@ -6,6 +6,8 @@ import Container from "../ui/container";
 import { navigationData } from "../data/navigation";
 import { useHeader } from "../context/HeaderContext";
 import AnnouncementBar from "./announcement-bar";
+import GenericMegaMenu from "./mega-menu/GenericMegaMenu";
+import { megaMenus } from "../data/megaMenu";
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,6 +15,7 @@ export default function Header() {
     const location = useLocation();
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
+    const megaMenuRef = useRef(null);
 
     const { isHeroVisible, isHeaderReady } = useHeader();
     
@@ -26,7 +29,10 @@ export default function Header() {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            const clickedInsideNav = dropdownRef.current && dropdownRef.current.contains(event.target);
+            const clickedInsideMegaMenu = megaMenuRef.current && megaMenuRef.current.contains(event.target);
+            
+            if (!clickedInsideNav && !clickedInsideMegaMenu) {
                 setOpenDropdown(null);
             }
         }
@@ -85,28 +91,28 @@ export default function Header() {
             {/* Announcement bar solo en Hero */}
             <AnnouncementBar isVisible={isHeroVisible} isHeaderReady={isHeaderReady} />
             
-            <header className={`w-full backdrop-blur-md border-b ${transitionClass} ${isCompact ? 'bg-white/85 border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]' : 'bg-white border-transparent'}`}>
-                <Container size="wide" className="flex justify-between items-center h-[100px]">
+            <header className={`w-full backdrop-blur-md border-b border-gray-200 ${transitionClass} ${isCompact ? 'bg-white/85 shadow-[0_1px_2px_rgba(0,0,0,0.02)]' : 'bg-white'}`}>
+                <Container size="wide" className={`flex flex-col justify-center transition-all duration-300 ${isCompact ? 'pt-2 pb-1.5 2xl:py-0 2xl:h-[80px]' : 'pt-4 pb-2 2xl:py-0 2xl:h-[100px]'}`}>
                     
-                    <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] w-full items-center gap-4">
+                    <div className="grid w-full items-center gap-x-4 grid-cols-2 2xl:grid-cols-[auto_minmax(0,1fr)_auto] gap-y-2 2xl:gap-y-0">
                         
                         {/* Logo */}
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-start 2xl:col-auto">
                             <Link to="/" className="flex flex-row gap-2 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md group">
                                 <img 
                                     src="/image/logo-only.png" 
                                     alt="Biznovatech Logo" 
-                                    className="w-16 md:w-20" 
+                                    className={`transition-all duration-300 ${isCompact ? 'w-14 md:w-16' : 'w-16 md:w-20'}`} 
                                 />
-                                <span className="text-secondary font-semibold text-2xl md:text-3xl">
-                                    Biznova<strong className="text-primary font-bold">tech</strong>
+                                <span className={`text-secondary font-semibold transition-all duration-300 ${isCompact ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
+                                    Biznova<strong className="text-tertiary font-bold">tech</strong>
                                 </span>
                             </Link>
                         </div>
 
                         {/* Desktop Navigation */}
-                        <nav className="hidden min-[1200px]:flex justify-center" ref={dropdownRef}>
-                            <ul className="flex flex-row items-center text-t-secondary gap-10">
+                        <nav className="hidden min-[1200px]:flex col-span-2 2xl:col-span-1 2xl:col-start-2 row-start-2 2xl:row-start-1 justify-center w-full border-t border-gray-200 2xl:border-t-0 pt-1.5 2xl:pt-0 mt-1 2xl:mt-0" ref={dropdownRef}>
+                            <ul className={`flex flex-row items-center justify-center text-t-secondary gap-8 2xl:gap-10 transition-all duration-300 w-full`}>
                                 {navigationData.map((item, index) => {
                                     const isDropdownOpen = openDropdown === index;
                                     const isActive = location.pathname.startsWith(item.href) && (item.href !== '/' || location.pathname === '/');
@@ -115,13 +121,25 @@ export default function Header() {
                                         <li 
                                             key={item.label} 
                                             className="relative group"
-                                            onMouseEnter={() => setOpenDropdown(index)}
-                                            onMouseLeave={() => setOpenDropdown(null)}
                                         >
-                                            <div className="flex items-center gap-0.5 cursor-pointer py-2">
+                                            <div 
+                                                className="flex items-center gap-0.5 cursor-pointer py-2"
+                                                onClick={(e) => {
+                                                    if (item.submenu) {
+                                                        e.preventDefault();
+                                                        setOpenDropdown(isDropdownOpen ? null : index);
+                                                    }
+                                                }}
+                                            >
                                                 <Link
                                                     to={item.href}
-                                                    className={`font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 ${
+                                                    onClick={(e) => {
+                                                        if (item.submenu) {
+                                                            e.preventDefault();
+                                                            setOpenDropdown(isDropdownOpen ? null : index);
+                                                        }
+                                                    }}
+                                                    className={`font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 ${
                                                         isActive ? 'text-gray-900 relative after:content-[""] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-blue-600 after:rounded-t-sm' : 'hover:text-gray-900'
                                                     } text-lg`}
                                                 >
@@ -137,25 +155,6 @@ export default function Header() {
                                                     </button>
                                                 )}
                                             </div>
-
-                                            {/* Dropdown Menu */}
-                                            {item.submenu && isDropdownOpen && (
-                                                <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white border border-gray-100 shadow-sm rounded-xl py-3 px-2 z-50 animate-fade-in">
-                                                    <ul className="flex flex-col gap-1">
-                                                        {item.submenu.map((subitem) => (
-                                                            <li key={subitem.label}>
-                                                                <Link
-                                                                    to={subitem.href}
-                                                                    onClick={(e) => handleNavigation(e, subitem)}
-                                                                    className="block px-4 py-2.5 text-sm text-t-secondary hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors focus-visible:outline-none focus-visible:bg-gray-50 focus-visible:text-gray-900"
-                                                                >
-                                                                    {subitem.label}
-                                                                </Link>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
                                         </li>
                                     );
                                 })}
@@ -163,15 +162,17 @@ export default function Header() {
                         </nav>
 
                         {/* CTA Button (Desktop) & Mobile Toggle */}
-                        <div className="flex items-center justify-end gap-4">
+                        <div className="flex items-center justify-end gap-4 col-start-2 2xl:col-start-3 row-start-1">
                             <div className="hidden min-[1200px]:block">
-                                <Button 
-                                    variant="secondary" 
-                                    to="/contacto"
-                                >
-                                    Agendar Reunion
-                                    <Icon icon="solar:arrow-up-linear" className="w-5 h-5 rotate-45" />
-                                </Button>
+                                <div className={`transition-transform duration-300 origin-right ${isCompact ? 'scale-90' : 'scale-100'}`}>
+                                    <Button 
+                                        variant="secondary" 
+                                        to="/contacto"
+                                    >
+                                        Agendar Reunion
+                                        <Icon icon="solar:arrow-up-linear" className="w-5 h-5 rotate-45" />
+                                    </Button>
+                                </div>
                             </div>
 
                             {/* Mobile Menu Button */}
@@ -215,7 +216,36 @@ export default function Header() {
                                             </div>
                                             
                                             {/* Mobile Submenu Accordion */}
-                                            {item.submenu && isDropdownOpen && (
+                                            {isDropdownOpen && megaMenus[item.label] ? (
+                                                <div className="mt-4 flex flex-col gap-5 pl-4 border-l-2 border-gray-100">
+                                                    <Link
+                                                        to={megaMenus[item.label].viewAllRoute}
+                                                        onClick={(e) => handleNavigation(e, { href: megaMenus[item.label].viewAllRoute, type: 'route' })}
+                                                        className="font-semibold text-primary text-[15px] hover:text-primary-hover transition-colors"
+                                                    >
+                                                        {megaMenus[item.label].viewAllLabel}
+                                                    </Link>
+                                                    {megaMenus[item.label].groups.map((group, gIdx) => (
+                                                        <div key={gIdx} className="flex flex-col gap-3">
+                                                            <span className="text-[11px] font-bold text-t-secondary uppercase tracking-wider">{group.title}</span>
+                                                            <ul className="flex flex-col gap-2">
+                                                                {group.items.map((subitem, sIdx) => (
+                                                                    <li key={sIdx}>
+                                                                        <Link
+                                                                            to={subitem.route}
+                                                                            onClick={(e) => handleNavigation(e, { href: subitem.route, type: subitem.route.includes('#') ? 'hash' : 'route' })}
+                                                                            className="flex items-center gap-2.5 text-[14px] font-medium text-surface-dark hover:text-tertiary transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+                                                                        >
+                                                                            <Icon icon={subitem.icon} className="w-[18px] h-[18px] text-t-secondary shrink-0" />
+                                                                            {subitem.label}
+                                                                        </Link>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : isDropdownOpen && item.submenu && (
                                                 <ul className="mt-4 flex flex-col gap-3 pl-4 border-l-2 border-gray-100">
                                                     {item.submenu.map((subitem) => (
                                                         <li key={subitem.label}>
@@ -244,6 +274,15 @@ export default function Header() {
                     </div>
                 )}
             </header>
+
+            {/* Mega Menu Portals */}
+            <div ref={megaMenuRef}>
+                <GenericMegaMenu 
+                    isOpen={openDropdown !== null && !!megaMenus[navigationData[openDropdown]?.label]} 
+                    activeMenuId={openDropdown !== null ? navigationData[openDropdown]?.label : null}
+                    onClose={() => setOpenDropdown(null)} 
+                />
+            </div>
         </div>
     );
 }
