@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 export default function Breadcrumb({ items }) {
 
     return (
-        <nav aria-label="Navegación de migas de pan" className="mb-8">
+        <nav aria-label="Navegación de migas de pan" className="mb-8 mt-6 lg:mt-8">
             <ol className="flex flex-wrap items-center gap-2 text-sm text-t-secondary">
                 <li className="flex items-center gap-2">
                     <Link to="/" className="hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">

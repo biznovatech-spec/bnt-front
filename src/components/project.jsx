@@ -21,10 +21,9 @@ export default function Project() {
                     <Link
                         key={project.id}
                         to={project.link}
-                        className="flex flex-col group rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-sm transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        className="relative flex flex-col group rounded-md bg-white hover:shadow-md transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm after:absolute after:bottom-0 after:left-0 after:w-full after:h-1.5 after:bg-gradient-to-r after:from-tertiary after:from-50% after:to-primary after:to-50%"
                     >
-                        <div className="p-3 pb-0">
-                            <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-2xl">
+                        <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
                             <img
                                 src={project.image}
                                 alt={project.title}
@@ -36,7 +35,6 @@ export default function Project() {
                             <div className="absolute bottom-3 left-3 bg-tertiary/10 px-3 py-1 rounded-lg shadow-sm border border-tertiary/20 backdrop-blur-sm">
                                 <span className="text-xs font-semibold text-tertiary">{project.type}</span>
                             </div>
-                        </div>
                         </div>
 
                         <div className="flex flex-col gap-2 p-5 flex-1">
