@@ -75,10 +75,11 @@ export default function AnnouncementBar({ isVisible, isHeaderReady }) {
 
                         <button
                             onClick={handleDismiss}
-                            className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A] transition-colors duration-200 text-white shrink-0 ml-1 sm:ml-0"
+                            className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A] transition-colors duration-200 text-white shrink-0 ml-2"
                             aria-label="Cerrar aviso"
+                            title="Cerrar aviso"
                         >
-                            <Icon icon="solar:close-linear" className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
+                            <span className="text-lg leading-none font-bold">&times;</span>
                         </button>
                     </div>
 
