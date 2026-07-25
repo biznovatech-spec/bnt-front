@@ -1,6 +1,6 @@
 import { useSeo } from "../hooks/useSeo";
 import { Icon } from "@iconify/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../components/hero";
 import Technologies from "../components/technologies";
@@ -22,6 +22,7 @@ export default function Home() {
 
     const { setIsHeroVisible } = useHeader();
     const heroRef = useRef(null);
+    const [activeAudience, setActiveAudience] = useState(0);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -66,26 +67,54 @@ export default function Home() {
                             title="Acompañamos tu proyecto sin importar la etapa"
                             description="No importa si partes de una idea inicial, de un proceso manual o de un sistema en funcionamiento. Analizamos tu situación para diseñar una solución adecuada."
                         />
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
-                            {audienceCards.map((item, index) => (
-                                <Link
-                                    key={item.title}
-                                    to={item.to}
-                                    className={`group relative flex min-h-64 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white p-6 transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none ${index < 3 ? "lg:col-span-2" : "lg:col-span-3"}`}
-                                    aria-label={`${item.title}: ${item.action}`}
-                                >
-                                    <span className="flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-primary transition-[transform,border-color] duration-200 group-hover:translate-x-1 group-hover:border-primary/30 group-focus-visible:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none">
-                                        <Icon icon={item.icon} className="h-7 w-7" aria-hidden="true" />
-                                    </span>
-                                    <h3 className="mt-5 font-bold text-gray-900">{item.title}</h3>
-                                    <p className="mt-3 text-sm leading-relaxed text-t-secondary">{item.text}</p>
-                                    <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-primary opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 motion-reduce:transition-none">
-                                        {item.action}
-                                        <Icon icon="solar:arrow-right-linear" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" aria-hidden="true" />
-                                    </span>
-                                    <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform duration-200 group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none" aria-hidden="true" />
-                                </Link>
-                            ))}
+                        <div className="flex flex-col md:flex-row w-full border border-gray-200 bg-white">
+                            {/* Left Column: Tabs */}
+                            <div className="w-full md:w-1/3 lg:w-[35%] flex flex-col border-b md:border-b-0 md:border-r border-gray-200">
+                                {audienceCards.map((item, index) => {
+                                    const isActive = activeAudience === index;
+                                    return (
+                                        <button
+                                            key={item.title}
+                                            onClick={() => setActiveAudience(index)}
+                                            className={`relative flex items-center w-full px-6 py-6 text-left border-b border-gray-200 last:border-b-0 transition-colors ${
+                                                isActive ? "bg-gray-50" : "hover:bg-gray-50/50"
+                                            }`}
+                                        >
+                                            {isActive && (
+                                                <div className="absolute inset-0 pointer-events-none">
+                                                    <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-gray-900"></div>
+                                                    <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-gray-900"></div>
+                                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-gray-900"></div>
+                                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-gray-900"></div>
+                                                </div>
+                                            )}
+                                            <span className={`text-base ${isActive ? "font-bold text-gray-900" : "font-medium text-gray-600"}`}>
+                                                {item.title}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Right Column: Content */}
+                            <div className="w-full md:w-2/3 lg:w-[65%] p-8 md:p-12 bg-gray-50/50 flex flex-col justify-center">
+                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                                    {audienceCards[activeAudience].title}
+                                </h3>
+                                <p className="text-gray-600 leading-relaxed mb-10 max-w-2xl text-lg">
+                                    {audienceCards[activeAudience].text}
+                                </p>
+                                
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto">
+                                    <Link 
+                                        to={audienceCards[activeAudience].to}
+                                        className="group flex items-start gap-3 text-base font-semibold text-gray-900 hover:text-primary transition-colors"
+                                    >
+                                        <span className="flex-1">{audienceCards[activeAudience].action}</span>
+                                        <Icon icon="solar:arrow-right-up-linear" className="w-5 h-5 shrink-0 mt-0.5" />
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
                         <div className="flex flex-col items-start gap-2 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-sm text-t-secondary">¿No estás seguro de qué opción se ajusta a tu caso?</p>
