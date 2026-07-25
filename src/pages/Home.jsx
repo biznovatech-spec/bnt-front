@@ -59,7 +59,7 @@ export default function Home() {
             </div>
 
             {/* Para quién construimos */}
-            <section className="w-full bg-gray-50 py-16">
+            <section className="w-full py-16">
                 <Container size="wide">
                     <div className="flex flex-col gap-10">
                         <SectionHeader
