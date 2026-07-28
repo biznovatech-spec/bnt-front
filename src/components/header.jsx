@@ -98,11 +98,11 @@ export default function Header() {
                         
                         {/* Logo */}
                         <div className="flex items-center justify-start 2xl:col-auto">
-                            <Link to="/" className="flex flex-row gap-2 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md group">
+                            <Link to="/" className="flex flex-row gap-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md group">
                                 <img 
-                                    src="/image/logo-only.png" 
+                                    src="/image/logo_only.webp" 
                                     alt="Biznovatech Logo" 
-                                    className={`transition-all duration-300 ${isCompact ? 'w-14 md:w-16' : 'w-16 md:w-20'}`} 
+                                    className={`transition-all duration-300 ${isCompact ? 'w-16 md:w-20' : 'w-20 md:w-24'}`} 
                                 />
                                 <span className={`text-secondary font-semibold transition-all duration-300 ${isCompact ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
                                     Biznova<strong className="text-tertiary font-bold">tech</strong>

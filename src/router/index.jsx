@@ -1,20 +1,31 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import MainLayout from "../layouts/MainLayout";
+import PageLoader from "../components/page-loader";
+
+// Componentes críticos que cargan inmediato
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 
-import ServiciosPage from "../pages/ServiciosPage";
-import ServiceDetailPage from "../pages/ServiceDetailPage";
-import SolucionesPage from "../pages/SolucionesPage";
-import SolutionDetailPage from "../pages/SolutionDetailPage";
-import CasosPage from "../pages/CasosPage";
-import CaseDetailPage from "../pages/CaseDetailPage";
-import NosotrosPage from "../pages/NosotrosPage";
-import RecursosPage from "../pages/RecursosPage";
-import TecnologiasPage from "../pages/TecnologiasPage";
-import ArticlePage from "../pages/ArticlePage";
-import ContactoPage from "../pages/ContactoPage";
-import LegalPage from "../pages/LegalPage";
+// Lazy Loaded Pages
+const ServiciosPage = lazy(() => import("../pages/ServiciosPage"));
+const ServiceDetailPage = lazy(() => import("../pages/ServiceDetailPage"));
+const SolucionesPage = lazy(() => import("../pages/SolucionesPage"));
+const SolutionDetailPage = lazy(() => import("../pages/SolutionDetailPage"));
+const CasosPage = lazy(() => import("../pages/CasosPage"));
+const CaseDetailPage = lazy(() => import("../pages/CaseDetailPage"));
+const NosotrosPage = lazy(() => import("../pages/NosotrosPage"));
+const RecursosPage = lazy(() => import("../pages/RecursosPage"));
+const TecnologiasPage = lazy(() => import("../pages/TecnologiasPage"));
+const ArticlePage = lazy(() => import("../pages/ArticlePage"));
+const ContactoPage = lazy(() => import("../pages/ContactoPage"));
+const LegalPage = lazy(() => import("../pages/LegalPage"));
+
+const withSuspense = (Component, props = {}) => (
+    <Suspense fallback={<PageLoader />}>
+        <Component {...props} />
+    </Suspense>
+);
 
 export const router = createBrowserRouter([
     {
@@ -33,67 +44,67 @@ export const router = createBrowserRouter([
             // SERVICIOS
             {
                 path: "servicios",
-                element: <ServiciosPage />,
+                element: withSuspense(ServiciosPage),
             },
             {
                 path: "servicios/:slug",
-                element: <ServiceDetailPage />,
+                element: withSuspense(ServiceDetailPage),
             },
             // SOLUCIONES
             {
                 path: "soluciones",
-                element: <SolucionesPage />,
+                element: withSuspense(SolucionesPage),
             },
             {
                 path: "soluciones/:slug",
-                element: <SolutionDetailPage />,
+                element: withSuspense(SolutionDetailPage),
             },
             // CASOS DE EXITO
             {
                 path: "casos-de-exito",
-                element: <CasosPage />,
+                element: withSuspense(CasosPage),
             },
             {
                 path: "casos-de-exito/:slug",
-                element: <CaseDetailPage />,
+                element: withSuspense(CaseDetailPage),
             },
             // NOSOTROS
             {
                 path: "nosotros",
-                element: <NosotrosPage />,
+                element: withSuspense(NosotrosPage),
             },
             // RECURSOS
             {
                 path: "recursos",
-                element: <RecursosPage />,
+                element: withSuspense(RecursosPage),
             },
             {
                 path: "recursos/tecnologias",
-                element: <TecnologiasPage />,
+                element: withSuspense(TecnologiasPage),
             },
             {
                 path: "recursos/:slug",
-                element: <ArticlePage />,
+                element: withSuspense(ArticlePage),
             },
             // CONTACTO
             {
                 path: "contacto",
-                element: <ContactoPage />,
+                element: withSuspense(ContactoPage),
             },
             // LEGALES
             {
                 path: "privacidad",
-                element: <LegalPage title="Política de Privacidad" />,
+                element: withSuspense(LegalPage, { title: "Política de Privacidad" }),
             },
             {
                 path: "terminos-y-condiciones",
-                element: <LegalPage title="Términos y Condiciones" />,
+                element: withSuspense(LegalPage, { title: "Términos y Condiciones" }),
             },
             {
                 path: "libro-de-reclamaciones",
-                element: <LegalPage title="Libro de Reclamaciones" />,
+                element: withSuspense(LegalPage, { title: "Libro de Reclamaciones" }),
             },
-            // 404 CATCH ALL FOR INTERNAL ROUTES IF NEEDED, handled by errorElement
+            // 404 CATCH ALL FOR INTERNAL ROUTES
             {
                 path: "*",
                 element: <NotFound />

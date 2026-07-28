@@ -18,21 +18,36 @@ export const company = {
         "Capacidad para trabajar con clientes de diferentes ubicaciones"
     ],
     contact: {
-        email: "biznovatech@gmail.com",
+        email: "contac@m3biznovatech.com",
         phone: "+51 953 337 437",
         whatsapp: "51953337437"
     },
     social: {
-        linkedin: { handle: "Biznovatech", url: null, status: "reserved" },
-        instagram: { handle: "@biznovatech", url: null, status: "reserved" },
-        facebook: { handle: "Biznovatech", url: null, status: "reserved" },
-        github: { handle: "biznovatech", url: "https://github.com/biznovatech", status: "active" }
+        linkedin: {
+            handle: "Biznovatech",
+            url: null,
+            status: "reserved"
+        },
+        instagram: {
+            handle: "@biznovatech",
+            url: null,
+            status: "reserved"
+        },
+        facebook: {
+            handle: "Biznovatech",
+            url: null,
+            status: "reserved"
+        },
+        github: {
+            handle: "biznovatech",
+            url: "https://github.com/biznovatech",
+            status: "active"
+        }
     },
     purpose: "Ayudar a que ideas, necesidades y desafíos reales puedan convertirse en soluciones digitales útiles y bien construidas.",
     mission: "Diseñar y desarrollar soluciones digitales claras, funcionales y sostenibles, conectando las necesidades reales de cada cliente con análisis, diseño y tecnología bien ejecutada.",
     vision: "Consolidarnos como un socio tecnológico confiable para personas y organizaciones que buscan construir, mejorar o transformar productos y procesos digitales.",
-    values: [
-        {
+    values: [{
             name: "Escucha",
             description: "Cada proyecto comienza entendiendo el contexto, las necesidades y las expectativas de quien nos busca. No asumimos: preguntamos, escuchamos y confirmamos antes de avanzar."
         },

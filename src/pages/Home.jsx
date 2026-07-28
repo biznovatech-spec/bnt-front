@@ -2,6 +2,7 @@ import { useSeo } from "../hooks/useSeo";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import Hero from "../components/hero";
 import Technologies from "../components/technologies";
 import Services from "../components/services";
@@ -49,6 +50,11 @@ export default function Home() {
         };
     }, [setIsHeroVisible]);
 
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }
+    };
+
     return (
         <div className="w-full flex flex-col gap-0">
             {/* Hero */}
@@ -59,7 +65,13 @@ export default function Home() {
             </div>
 
             {/* Para quién construimos */}
-            <section className="w-full py-16">
+            <motion.section 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="w-full py-16"
+            >
                 <Container size="wide">
                     <div className="flex flex-col gap-10">
                         <SectionHeader
@@ -81,12 +93,12 @@ export default function Home() {
                                             }`}
                                         >
                                             {isActive && (
-                                                <div className="absolute inset-0 pointer-events-none">
+                                                <motion.div layoutId="activeTabIndicator" className="absolute inset-0 pointer-events-none">
                                                     <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-gray-900"></div>
                                                     <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-gray-900"></div>
                                                     <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-gray-900"></div>
                                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-gray-900"></div>
-                                                </div>
+                                                </motion.div>
                                             )}
                                             <span className={`text-base ${isActive ? "font-bold text-gray-900" : "font-medium text-gray-600"}`}>
                                                 {item.title}
@@ -98,22 +110,29 @@ export default function Home() {
 
                             {/* Right Column: Content */}
                             <div className="w-full md:w-2/3 lg:w-[65%] p-8 md:p-12 bg-gray-50/50 flex flex-col justify-center">
-                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                                    {audienceCards[activeAudience].title}
-                                </h3>
-                                <p className="text-gray-600 leading-relaxed mb-10 max-w-2xl text-lg">
-                                    {audienceCards[activeAudience].text}
-                                </p>
-                                
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto">
-                                    <Link 
-                                        to={audienceCards[activeAudience].to}
-                                        className="group flex items-start gap-3 text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                                    >
-                                        <span className="flex-1">{audienceCards[activeAudience].action}</span>
-                                        <Icon icon="solar:arrow-right-up-linear" className="w-5 h-5 shrink-0 mt-0.5" />
-                                    </Link>
-                                </div>
+                                <motion.div
+                                    key={activeAudience}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                                        {audienceCards[activeAudience].title}
+                                    </h3>
+                                    <p className="text-gray-600 leading-relaxed mb-10 max-w-2xl text-lg">
+                                        {audienceCards[activeAudience].text}
+                                    </p>
+                                    
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto">
+                                        <Link 
+                                            to={audienceCards[activeAudience].to}
+                                            className="group flex items-start gap-3 text-base font-semibold text-gray-900 hover:text-primary transition-colors"
+                                        >
+                                            <span className="flex-1">{audienceCards[activeAudience].action}</span>
+                                            <Icon icon="solar:arrow-right-up-linear" className="w-5 h-5 shrink-0 mt-0.5" />
+                                        </Link>
+                                    </div>
+                                </motion.div>
                             </div>
                         </div>
                         <div className="flex flex-col items-start gap-2 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -125,28 +144,55 @@ export default function Home() {
                         </div>
                     </div>
                 </Container>
-            </section>
+            </motion.section>
 
             {/* Servicios */}
-            <Container size="wide">
-                <Services />
-            </Container>
+            <motion.div 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+            >
+                <Container size="wide">
+                    <Services />
+                </Container>
+            </motion.div>
 
             {/* Proceso */}
-            <Container size="wide">
-                <Process />
-            </Container>
+            <motion.div 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+            >
+                <Container size="wide">
+                    <Process />
+                </Container>
+            </motion.div>
 
             {/* Tecnologías marquee */}
             <Technologies />
 
             {/* Proyectos destacados */}
-            <Container size="wide">
-                <Project />
-            </Container>
+            <motion.div 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+            >
+                <Container size="wide">
+                    <Project />
+                </Container>
+            </motion.div>
 
-            {/* Por qué Biznovatech — Rediseñado en fondo claro */}
-            <section className="w-full py-20 border-t border-gray-100">
+            {/* Por qué Biznovatech */}
+            <motion.section 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="w-full py-20 border-t border-gray-100"
+            >
                 <Container size="wide">
                     <div className="flex flex-col gap-16">
                         <div className="max-w-2xl">
@@ -158,8 +204,15 @@ export default function Home() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                            {whyValues.map((item) => (
-                                <div key={item.step} className="flex gap-5 group">
+                            {whyValues.map((item, index) => (
+                                <motion.div 
+                                    key={item.step} 
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                                    className="flex gap-5 group"
+                                >
                                     <div className="flex flex-col items-center shrink-0">
                                         <div className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center group-hover:border-primary/40 transition-colors">
                                             <Icon icon={item.icon} className="w-5 h-5 text-primary" />
@@ -171,22 +224,29 @@ export default function Home() {
                                         <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
                                         <p className="text-sm text-t-secondary leading-relaxed">{item.text}</p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </Container>
-            </section>
+            </motion.section>
 
             {/* CTA final */}
-            <Container size="standard">
-                <CTASection
-                    title="¿Estás listo para dar el siguiente paso?"
-                    description="Cuéntanos sobre tu idea, tu proceso manual o el sistema que necesitas mejorar."
-                    buttonText="Cuéntanos tu idea"
-                    buttonTo="/contacto"
-                />
-            </Container>
+            <motion.div 
+                variants={sectionVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+            >
+                <Container size="standard">
+                    <CTASection
+                        title="¿Estás listo para dar el siguiente paso?"
+                        description="Cuéntanos sobre tu idea, tu proceso manual o el sistema que necesitas mejorar."
+                        buttonText="Cuéntanos tu idea"
+                        buttonTo="/contacto"
+                    />
+                </Container>
+            </motion.div>
         </div>
     );
 }

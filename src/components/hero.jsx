@@ -2,6 +2,8 @@ import { Icon } from "@iconify/react";
 import Button from "../ui/button";
 import { company } from "../data/company";
 import { metrics } from "../data/metrics";
+import Logo from "../ui/logo";
+import HeroLogo3D from "./hero-logo-3d";
 
 export default function Hero() {
     return (
@@ -35,14 +37,8 @@ export default function Hero() {
                         ))}
                     </div>
                 </article>
-                <aside className="w-full lg:w-[50%] flex justify-center lg:justify-end">
-                    <img
-                        src="/image/fondo-hero.png"
-                        alt="Ilustración 3D de tecnología y desarrollo"
-                        className="w-full max-w-lg lg:max-w-none object-contain"
-                        width="700"
-                        height="700"
-                    />
+                <aside className="w-full lg:w-[50%] flex justify-center items-center ">
+                    <HeroLogo3D />
                 </aside>
             </div>
         </section>
