@@ -24,39 +24,75 @@ export const whyValues = [{
     }
 ];
 
-export const audienceCards = [{
+export const audienceCards = [
+    {
+        number: "01",
         title: "Tengo una idea",
+        stage: "Etapa inicial",
         text: "Te ayudamos a ordenar el concepto, evaluar su viabilidad y convertirlo en un primer alcance funcional.",
-        icon: "solar:lightbulb-bolt-linear",
+        icon: "lucide:lightbulb",
         action: "Cuéntanos qué imaginas",
-        to: "/contacto"
+        to: "/contacto",
+        related: [
+            { label: "Consultoría tecnológica", href: "/servicios/consultoria-tecnologica" },
+            { label: "Diseño UI/UX", href: "/servicios/diseno-ux-ui" },
+            { label: "Desarrollo de software", href: "/servicios/desarrollo-software" }
+        ]
     },
     {
+        number: "02",
         title: "Necesito digitalizar",
-        text: "Analizamos cómo trabajas e identificamos qué tareas, registros o flujos pueden organizarse con tecnología.",
-        icon: "solar:refresh-circle-linear",
+        stage: "Procesos y organización",
+        text: "Analizamos cómo trabajas actualmente e identificamos qué tareas, registros o flujos pueden organizarse mediante tecnología.",
+        icon: "lucide:workflow",
         action: "Explorar la digitalización",
-        to: "/soluciones/automatizacion-procesos"
+        to: "/soluciones/automatizacion-procesos",
+        related: [
+            { label: "Automatización de procesos", href: "/soluciones/automatizacion-procesos" },
+            { label: "Sistemas de gestión", href: "/soluciones/sistemas-gestion" },
+            { label: "Consultoría tecnológica", href: "/servicios/consultoria-tecnologica" }
+        ]
     },
     {
+        number: "03",
         title: "Quiero lanzar un producto",
-        text: "Definimos la experiencia, las funciones esenciales y la base técnica para construir una primera versión preparada para evolucionar.",
-        icon: "solar:rocket-linear",
+        stage: "Producto digital",
+        text: "Definimos la experiencia, las funciones esenciales y la base técnica necesaria para construir una primera versión preparada para evolucionar.",
+        icon: "lucide:rocket",
         action: "Diseñar mi producto",
-        to: "/soluciones/plataformas-digitales"
+        to: "/soluciones/plataformas-digitales",
+        related: [
+            { label: "Plataformas digitales", href: "/soluciones/plataformas-digitales" },
+            { label: "Aplicaciones móviles", href: "/servicios/aplicaciones-moviles" },
+            { label: "Diseño UI/UX", href: "/servicios/diseno-ux-ui" }
+        ]
     },
     {
+        number: "04",
         title: "Mi sistema debe mejorar",
-        text: "Revisamos sus problemas, priorizamos los cambios y planteamos una modernización gradual sin reemplazarlo todo innecesariamente.",
-        icon: "solar:window-frame-linear",
+        stage: "Evolución tecnológica",
+        text: "Revisamos sus problemas actuales, priorizamos los cambios y planteamos una modernización gradual sin reemplazar todo innecesariamente.",
+        icon: "lucide:refresh-cw",
         action: "Modernizar mi sistema",
-        to: "/soluciones/modernizacion-software"
+        to: "/soluciones/modernizacion-software",
+        related: [
+            { label: "Modernización de software", href: "/soluciones/modernizacion-software" },
+            { label: "Mantenimiento y soporte", href: "/servicios/mantenimiento-soporte" },
+            { label: "Cloud y DevOps", href: "/servicios/cloud-devops" }
+        ]
     },
     {
+        number: "05",
         title: "Busco orientación",
-        text: "Evaluamos tu contexto y te ayudamos a elegir una solución, un alcance y una ruta tecnológica antes de desarrollar.",
-        icon: "solar:compass-linear",
+        stage: "Definición del camino",
+        text: "Evaluamos tu contexto y te ayudamos a elegir una solución, alcance y ruta tecnológica antes de comenzar a desarrollar.",
+        icon: "lucide:compass",
         action: "Solicitar orientación",
-        to: "/servicios/consultoria-tecnologica"
+        to: "/servicios/consultoria-tecnologica",
+        related: [
+            { label: "Consultoría tecnológica", href: "/servicios/consultoria-tecnologica" },
+            { label: "Soluciones", href: "/soluciones" },
+            { label: "Contacto", href: "/contacto" }
+        ]
     }
 ];

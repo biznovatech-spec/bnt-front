@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ProcessText } from "../utils/process";
 import Title from "../ui/title";
 
-export default function Process() {
+function OriginalProcessSection() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
@@ -66,5 +66,22 @@ export default function Process() {
                 </div>
             </div>
         </section>
+    );
+}
+
+// Constante de control para activar/desactivar en la futura fase experimental el componente con GSAP
+const SHOW_EXPERIMENTAL_PROCESS = false;
+
+function ExperimentalProcessSection() {
+    // Nueva versión futura con narrativa ligada al scroll (GSAP / ScrollTrigger pospuesto)
+    return null;
+}
+
+export default function Process() {
+    return (
+        <>
+            <OriginalProcessSection />
+            {SHOW_EXPERIMENTAL_PROCESS && <ExperimentalProcessSection />}
+        </>
     );
 }

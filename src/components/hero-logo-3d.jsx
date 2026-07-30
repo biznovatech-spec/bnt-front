@@ -68,18 +68,20 @@ function OrganicCore() {
 }
 
 // 2. POLVO FLOTANTE ESTELAR
+const DUST_COUNT = 200;
+const DUST_POSITIONS = (() => {
+    const pos = new Float32Array(DUST_COUNT * 3);
+    for (let i = 0; i < DUST_COUNT; i++) {
+        pos[i * 3] = (Math.random() - 0.5) * 30;
+        pos[i * 3 + 1] = (Math.random() - 0.5) * 30;
+        pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
+    }
+    return pos;
+})();
+
 function FloatingDust() {
-    const dustRef = useRef()
-    const COUNT = 200
-    const { positions } = useMemo(() => {
-        const pos = new Float32Array(COUNT * 3)
-        for (let i = 0; i < COUNT; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * 30
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 30
-            pos[i * 3 + 2] = (Math.random() - 0.5) * 15
-        }
-        return { positions: pos }
-    }, [])
+    const dustRef = useRef();
+    const { positions } = useMemo(() => ({ positions: DUST_POSITIONS }), []);
 
     useFrame((state, delta) => {
         if (dustRef.current) {
@@ -91,7 +93,7 @@ function FloatingDust() {
     return (
         <points ref={dustRef}>
             <bufferGeometry>
-                <bufferAttribute attach="attributes-position" count={COUNT} array={positions} itemSize={3} />
+                <bufferAttribute attach="attributes-position" count={DUST_COUNT} array={positions} itemSize={3} />
             </bufferGeometry>
             <pointsMaterial color="#25C6FD" size={0.03} transparent opacity={0.3} />
         </points>
