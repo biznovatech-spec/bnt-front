@@ -113,8 +113,8 @@ export default function ContactoPage() {
                         
                         <div className="mt-auto pt-8">
                             {heroImage ? (
-                                <div className="rounded-2xl overflow-hidden flex items-center justify-center">
-                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm object-contain animate-fade-in" loading="lazy" />
+                                <div className="rounded-2xl overflow-hidden flex items-center justify-center ">
+                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm object-contain animate-fade-in scale-110 mask-b-from-50% mask-b-to-95%" loading="lazy" />
                                 </div>
                             ) : pendingImage ? (
                                 <PendingImagePlaceholder

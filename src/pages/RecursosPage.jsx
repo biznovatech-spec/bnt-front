@@ -37,7 +37,7 @@ export default function RecursosPage() {
                         </div>
                         <div className="lg:w-1/2 flex justify-center lg:justify-end">
                             {heroImage ? (
-                                <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-8 flex items-center justify-center max-w-lg w-full">
+                                <div className=" overflow-hidden  flex items-center justify-center max-w-lg w-full">
                                     <img src={heroImage.filename} alt={heroImage.alt} className="w-full object-contain animate-fade-in" loading="eager" />
                                 </div>
                             ) : pendingImage ? (
@@ -74,7 +74,7 @@ export default function RecursosPage() {
                             </Link>
                         </div>
                         <div className="lg:w-1/2 grid grid-cols-4 gap-4 opacity-50 pointer-events-none">
-                            {['react', 'nodejs', 'flutter', 'postgresql', 'figma', 'docker', 'tailwind-css', 'python'].map(slug => (
+                            {['react', 'nodedotjs', 'flutter', 'postgresql', 'figma', 'docker', 'tailwindcss', 'python'].map(slug => (
                                 <div key={slug} className="aspect-square rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
                                     <Icon icon={`simple-icons:${slug}`} className="w-8 h-8 text-white/50" />
                                 </div>

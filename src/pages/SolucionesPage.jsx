@@ -32,8 +32,8 @@ export default function SolucionesPage() {
                         </div>
                         {heroImage && (
                             <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                                <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-8 flex items-center justify-center max-w-sm w-full">
-                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full object-contain animate-fade-in" loading="eager" />
+                                <div className="overflow-hidden p-8 flex items-center justify-center max-w-sm w-full ">
+                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm  object-contain animate-fade-in scale-125" loading="eager" />
                                 </div>
                             </div>
                         )}

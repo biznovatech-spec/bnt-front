@@ -2,8 +2,7 @@
  * Registry of generated editorial images that actually exist on disk.
  * Images that are pending generation live in pendingImages.js instead.
  */
-export const generatedImages = [
-    {
+export const generatedImages = [{
         id: "services-editorial",
         filename: "/images/generated/services-editorial.png",
         route: "/servicios",
@@ -29,6 +28,24 @@ export const generatedImages = [
         alt: "Concepto abstracto de equipo multidisciplinario unificado",
         generated: true,
         purpose: "Apoyo visual principal"
+    },
+    {
+        id: "contact-editorial",
+        filename: "/images/generated/contact-editorial.png",
+        route: "/contacto",
+        section: "hero",
+        alt: "Concepto abstracto de equipo multidisciplinario unificado",
+        generated: true,
+        purpose: "Apoyo visual contact page"
+    },
+    {
+        id: "resources-editorial",
+        filename: "/images/generated/resources-editorial.png",
+        route: "/recursos",
+        section: "hero",
+        alt: "Concepto abstracto de equipo multidisciplinario unificado",
+        generated: true,
+        purpose: "Apoyo visual resources page"
     }
 ];
 

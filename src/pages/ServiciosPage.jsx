@@ -31,8 +31,8 @@ export default function ServiciosPage() {
                             Cada proyecto tiene necesidades diferentes. Ofrecemos servicios que cubren desde la consultoría inicial hasta el soporte continuo, para que puedas avanzar con confianza en cada etapa.
                         </p>
                         {heroImage && (
-                            <div className="mt-8 relative rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-8 flex items-center justify-center">
-                                <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm object-contain animate-fade-in" loading="eager" />
+                            <div className="mt-8 relative rounded-2xl overflow-hidden   p-8 flex items-center justify-center">
+                                <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm object-contain animate-fade-in zoom-125" loading="eager" />
                             </div>
                         )}
                     </div>
