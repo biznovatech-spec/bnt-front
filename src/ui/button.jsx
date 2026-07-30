@@ -27,6 +27,7 @@ const buttonVariants = cva(
     }
 );
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function cn(...inputs) {
     return twMerge(clsx(inputs));
 }

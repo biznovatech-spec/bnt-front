@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- Archivo de configuración de rutas que exporta la instancia del router y define componentes lazy */
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import MainLayout from "../layouts/MainLayout";
