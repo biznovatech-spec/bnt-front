@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import Button from "../ui/button";
 import { company } from "../data/company";
 import { metrics } from "../data/metrics";
-import Logo from "../ui/logo";
 import HeroLogo3D from "./hero-logo-3d";
 
 export default function Hero() {

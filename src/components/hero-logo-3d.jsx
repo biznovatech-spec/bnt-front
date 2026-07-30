@@ -110,7 +110,7 @@ function OrbitingPills() {
     return (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
             <motion.div 
-                className="relative w-[100%] h-[100%] sm:w-[95%] sm:h-[95%] rounded-full"
+                className="relative w-[82%] h-[82%] sm:w-[85%] sm:h-[85%] rounded-full"
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
             >
@@ -130,7 +130,7 @@ function OrbitingPills() {
                                     animate={{ rotate: [-angle, -angle - 360] }}
                                     transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
                                 >
-                                    <div className="bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/60 rounded-full px-5 py-2.5 sm:px-6 sm:py-3 flex items-center gap-3 pointer-events-auto hover:bg-white hover:scale-105 hover:shadow-[0_8px_30px_rgb(37,198,253,0.25)] transition-all cursor-pointer group">
+                                    <div className="bg-white/85 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/70 rounded-full px-5 py-2.5 sm:px-6 sm:py-3 flex items-center gap-3 pointer-events-auto hover:bg-white hover:scale-105 hover:shadow-[0_8px_30px_rgb(37,198,253,0.25)] transition-all cursor-pointer group">
                                         <Icon icon={pill.icon} className="text-[#25C6FD] text-xl sm:text-2xl group-hover:scale-110 transition-transform" />
                                         <span className="text-slate-700 font-bold text-sm sm:text-base whitespace-nowrap">{pill.text}</span>
                                     </div>
@@ -157,7 +157,7 @@ export default function HeroLogo3D({ className = "w-full max-w-[600px] aspect-sq
             </div>
 
             <motion.div
-                className="relative z-10 w-[55%] h-[55%] sm:w-[60%] sm:h-[60%] cursor-pointer"
+                className="relative z-10 w-[50%] h-[50%] sm:w-[54%] sm:h-[54%] cursor-pointer"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >

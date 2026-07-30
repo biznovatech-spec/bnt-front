@@ -10,7 +10,7 @@ export default function MainLayout() {
             <div className="min-h-screen w-full flex flex-col bg-background font-sans">
                 <ScrollToTop />
                 <Header />
-                <main className="flex-1 w-full">
+                <main className="flex-1 w-full overflow-x-clip">
                     <Outlet />
                 </main>
                 <div className="w-full mt-auto">
