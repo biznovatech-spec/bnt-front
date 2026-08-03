@@ -1,10 +1,26 @@
 import { useSeo } from "../hooks/useSeo";
 import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import Container from "../ui/container";
 import SectionHeader from "../ui/section-header";
 import Breadcrumb from "../ui/breadcrumb";
 import CTASection from "../ui/cta-section";
 import { projects } from "../data/projects";
+
+const techIcons = {
+    react: "logos:react",
+    nodejs: "logos:nodejs-icon",
+    express: "simple-icons:express",
+    postgresql: "logos:postgresql",
+    tailwind: "logos:tailwindcss-icon",
+    figma: "logos:figma",
+    docker: "logos:docker-icon",
+    vite: "logos:vitejs",
+    javascript: "logos:javascript",
+    html5: "logos:html-5",
+    css3: "logos:css-3",
+    blender: "logos:blender"
+};
 
 export default function CasosPage() {
     useSeo({
@@ -47,13 +63,21 @@ export default function CasosPage() {
                                     <span className="text-sm font-semibold text-primary">{project.category}</span>
                                 </div>
                                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-primary transition-colors">
-                                    {project.name}
+                                    {project.name} 
                                 </h2>
                                 <p className="text-t-secondary leading-relaxed max-w-2xl">{project.context}</p>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {project.technologies.slice(0, 5).map(tech => (
-                                        <span key={tech} className="text-xs px-3 py-1 bg-gray-50 border border-gray-100 rounded-full text-t-secondary font-medium">{tech}</span>
+                                        <span key={tech} className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-t-secondary font-medium capitalize grayscale">
+                                            {techIcons[tech] && <Icon icon={techIcons[tech]} className="w-3.5 h-3.5" />}
+                                            {tech}
+                                        </span>
                                     ))}
+                                    {project.technologies.length > 5 && (
+                                        <span className="flex items-center text-xs px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-gray-400 font-medium">
+                                            +{project.technologies.length - 5}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </Link>

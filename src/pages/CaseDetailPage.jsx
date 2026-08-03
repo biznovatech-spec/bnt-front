@@ -7,6 +7,21 @@ import CTASection from "../ui/cta-section";
 import { getProjectBySlug, projects } from "../data/projects";
 import { services } from "../data/services";
 
+const techIcons = {
+    react: "logos:react",
+    nodejs: "logos:nodejs-icon",
+    express: "simple-icons:express",
+    postgresql: "logos:postgresql",
+    tailwind: "logos:tailwindcss-icon",
+    figma: "logos:figma",
+    docker: "logos:docker-icon",
+    vite: "logos:vitejs",
+    javascript: "logos:javascript",
+    html5: "logos:html-5",
+    css3: "logos:css-3",
+    blender: "logos:blender"
+};
+
 export default function CaseDetailPage() {
     const { slug } = useParams();
     const project = getProjectBySlug(slug);
@@ -40,7 +55,10 @@ export default function CaseDetailPage() {
                             <p className="text-lg text-t-secondary leading-relaxed max-w-2xl">{project.context}</p>
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {project.technologies.map(tech => (
-                                    <span key={tech} className="text-xs px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-t-secondary font-medium">{tech}</span>
+                                    <span key={tech} className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-t-secondary font-medium capitalize grayscale">
+                                        {techIcons[tech] && <Icon icon={techIcons[tech]} className="w-3.5 h-3.5" />}
+                                        {tech}
+                                    </span>
                                 ))}
                             </div>
                         </div>
