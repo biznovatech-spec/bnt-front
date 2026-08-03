@@ -30,6 +30,8 @@ export default function ContactoPage() {
         message: "",
         privacy: false
     });
+    
+    const [status, setStatus] = useState("idle");
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -39,12 +41,14 @@ export default function ContactoPage() {
     const isFormValid = form.name.trim() !== "" && form.email.trim() !== "" && form.message.trim() !== "" && form.privacy;
 
     const generateMessage = () => {
-        const stageText = form.stage ? `\nEtapa: ${form.stage}` : "";
-        const serviceText = form.service ? `\nInterés: ${form.service}` : "";
-        const companyText = form.company ? ` (${form.company})` : "";
-        const phoneText = form.phone ? `\nTeléfono: ${form.phone}` : "";
-        
-        return `Hola Biznovatech, soy ${form.name}${companyText}.\n${phoneText}${stageText}${serviceText}\n\nMensaje:\n${form.message}`;
+        return `*m3BizNovaTech* 🌐\n\n` +
+               `👤 *Nombre:* ${form.name}\n` +
+               (form.company ? `🏢 *Organización:* ${form.company}\n` : "") +
+               `📧 *Correo:* ${form.email}\n` +
+               (form.phone ? `📱 *Teléfono:* ${form.phone}\n` : "") +
+               (form.stage ? `📌 *Etapa:* ${form.stage}\n` : "") +
+               (form.service ? `💡 *Interés:* ${form.service}\n` : "") +
+               `\n📝 *Mensaje:*\n${form.message}`;
     };
 
     const handleWhatsApp = (e) => {
@@ -57,15 +61,55 @@ export default function ContactoPage() {
         window.open(`https://wa.me/${company.contact.whatsapp}?text=${text}`, '_blank');
     };
 
-    const handleMailto = (e) => {
-        if (!isFormValid) {
-            e.preventDefault();
-            alert("Por favor, completa los campos requeridos y acepta la política de privacidad.");
-            return;
+    const handleEmailSubmit = async (e) => {
+        e.preventDefault();
+        if (!isFormValid) return;
+        
+        setStatus("submitting");
+
+        try {
+            const response = await fetch(`https://formsubmit.co/ajax/${company.contact.email}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    Nombre: form.name,
+                    Organización: form.company || "No especificada",
+                    Correo: form.email,
+                    Teléfono: form.phone || "No especificado",
+                    Etapa: form.stage || "No especificada",
+                    Interés: form.service || "No especificado",
+                    Mensaje: form.message,
+                    _subject: `Nuevo contacto de ${form.name || 'la web'}`,
+                    _template: "table"
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success === "false" && data.message && data.message.includes("Activation")) {
+                alert("AVISO (Solo la primera vez): FormSubmit ha enviado un correo de activación. Revisa la bandeja de entrada para activarlo.");
+                setStatus("idle");
+                return;
+            }
+
+            if (response.ok || data.success === "true") {
+                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+                setForm({
+                    name: "", company: "", email: "", phone: "",
+                    stage: "", service: "", message: "", privacy: false
+                });
+            } else {
+                throw new Error("Error en el envío");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Hubo un problema al enviar el mensaje. Por favor, intenta usar WhatsApp.");
+        } finally {
+            setStatus("idle");
         }
-        const subject = encodeURIComponent(`Nuevo contacto web: ${form.name}`);
-        const body = encodeURIComponent(generateMessage());
-        window.location.href = `mailto:${company.contact.email}?subject=${subject}&body=${body}`;
     };
 
     return (
@@ -131,7 +175,7 @@ export default function ContactoPage() {
                     </div>
                     
                     <div className="lg:w-3/5 bg-gray-50 rounded-2xl p-6 md:p-10 border border-gray-100">
-                        <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+                        <form onSubmit={handleEmailSubmit} className="flex flex-col gap-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex flex-col gap-2">
                                     <label htmlFor="name" className="text-sm font-semibold text-gray-900">Nombre *</label>
@@ -183,13 +227,12 @@ export default function ContactoPage() {
                             
                             <div className="flex flex-col sm:flex-row gap-4 mt-6">
                                 <button
-                                    type="button"
-                                    onClick={handleMailto}
-                                    disabled={!isFormValid}
+                                    type="submit"
+                                    disabled={!isFormValid || status === "submitting"}
                                     className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                                 >
-                                    <Icon icon="solar:letter-linear" className="w-5 h-5" />
-                                    Enviar por correo
+                                    <Icon icon={status === "submitting" ? "line-md:loading-twotone-loop" : "solar:letter-linear"} className="w-5 h-5" />
+                                    {status === "submitting" ? "Enviando..." : "Enviar por correo"}
                                 </button>
                                 <button
                                     type="button"
