@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSeo } from "../hooks/useSeo";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "../ui/container";
 import Breadcrumb from "../ui/breadcrumb";
 import SectionHeader from "../ui/section-header";
@@ -32,6 +33,12 @@ export default function ContactoPage() {
     });
     
     const [status, setStatus] = useState("idle");
+    const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+
+    const showToast = (message, type = "success") => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast({ show: false, message: "", type }), 5000);
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -54,7 +61,7 @@ export default function ContactoPage() {
     const handleWhatsApp = (e) => {
         if (!isFormValid) {
             e.preventDefault();
-            alert("Por favor, completa los campos requeridos y acepta la política de privacidad.");
+            showToast("Por favor, completa los campos requeridos y acepta la política de privacidad.", "error");
             return;
         }
         const text = encodeURIComponent(generateMessage());
@@ -72,7 +79,7 @@ export default function ContactoPage() {
             const cooldownTime = 5 * 60 * 1000; // 5 minutos en milisegundos
             if (timeSinceLastSent < cooldownTime) {
                 const remainingMinutes = Math.ceil((cooldownTime - timeSinceLastSent) / 60000);
-                alert(`Por favor, espera ${remainingMinutes} minuto(s) antes de enviar otro correo para evitar el spam. Puedes usar WhatsApp si es urgente.`);
+                showToast(`Por favor, espera ${remainingMinutes} minuto(s) antes de enviar otro correo. Puedes usar WhatsApp si es urgente.`, "error");
                 return;
             }
         }
@@ -104,7 +111,7 @@ export default function ContactoPage() {
             if (data.success === "false" && data.message && data.message.includes("Activation")) {
                 // FormSubmit envía correo de activación interno, pero mostramos mensaje de éxito al usuario
                 localStorage.setItem("bnt_last_email_sent", Date.now().toString());
-                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+                showToast("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.", "success");
                 setForm({
                     name: "", company: "", email: "", phone: "",
                     stage: "", service: "", message: "", privacy: false
@@ -117,7 +124,7 @@ export default function ContactoPage() {
                 // Guardar la fecha del envío exitoso para el control de spam
                 localStorage.setItem("bnt_last_email_sent", Date.now().toString());
                 
-                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+                showToast("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.", "success");
                 setForm({
                     name: "", company: "", email: "", phone: "",
                     stage: "", service: "", message: "", privacy: false
@@ -127,14 +134,31 @@ export default function ContactoPage() {
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("Hubo un problema al enviar el mensaje. Por favor, intenta usar WhatsApp.");
+            showToast("Hubo un problema al enviar el mensaje. Por favor, intenta usar WhatsApp.", "error");
         } finally {
             setStatus("idle");
         }
     };
 
     return (
-        <div className="w-full flex flex-col gap-16 pb-24">
+        <div className="w-full flex flex-col gap-16 pb-24 relative">
+            <AnimatePresence>
+                {toast.show && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: -20, x: "-50%" }}
+                        animate={{ opacity: 1, y: 0, x: "-50%" }}
+                        exit={{ opacity: 0, y: -20, x: "-50%" }}
+                        className="fixed top-8 left-1/2 z-50 w-[90%] max-w-md"
+                    >
+                        <div className={`px-6 py-4 rounded-xl shadow-2xl border flex items-center gap-4 ${toast.type === 'success' ? 'bg-white border-green-100' : 'bg-white border-red-100'}`}>
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${toast.type === 'success' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                                <Icon icon={toast.type === 'success' ? 'solar:check-circle-bold' : 'solar:danger-circle-bold'} className="w-6 h-6" />
+                            </div>
+                            <p className="text-gray-800 font-medium text-sm md:text-base">{toast.message}</p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             <Container size="standard">
                 <Breadcrumb items={[{ label: "Contacto" }]} />
                 <section className="pt-4 flex flex-col lg:flex-row gap-16 lg:gap-24">
