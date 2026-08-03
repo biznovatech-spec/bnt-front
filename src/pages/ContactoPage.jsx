@@ -65,6 +65,18 @@ export default function ContactoPage() {
         e.preventDefault();
         if (!isFormValid) return;
         
+        // Verificación de spam (5 minutos)
+        const lastSentTime = localStorage.getItem("bnt_last_email_sent");
+        if (lastSentTime) {
+            const timeSinceLastSent = Date.now() - parseInt(lastSentTime, 10);
+            const cooldownTime = 5 * 60 * 1000; // 5 minutos en milisegundos
+            if (timeSinceLastSent < cooldownTime) {
+                const remainingMinutes = Math.ceil((cooldownTime - timeSinceLastSent) / 60000);
+                alert(`Por favor, espera ${remainingMinutes} minuto(s) antes de enviar otro correo para evitar el spam. Puedes usar WhatsApp si es urgente.`);
+                return;
+            }
+        }
+
         setStatus("submitting");
 
         try {
@@ -96,6 +108,9 @@ export default function ContactoPage() {
             }
 
             if (response.ok || data.success === "true") {
+                // Guardar la fecha del envío exitoso para el control de spam
+                localStorage.setItem("bnt_last_email_sent", Date.now().toString());
+                
                 alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
                 setForm({
                     name: "", company: "", email: "", phone: "",
