@@ -35,8 +35,8 @@ export const company = {
         },
         facebook: {
             handle: "Biznovatech",
-            url: null,
-            status: "reserved"
+            url: "https://www.facebook.com/profile.php?id=61584361523360",
+            status: "active"
         },
         github: {
             handle: "biznovatech",
