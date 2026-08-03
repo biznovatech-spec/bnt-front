@@ -102,7 +102,13 @@ export default function ContactoPage() {
             const data = await response.json();
 
             if (data.success === "false" && data.message && data.message.includes("Activation")) {
-                alert("AVISO (Solo la primera vez): FormSubmit ha enviado un correo de activación. Revisa la bandeja de entrada para activarlo.");
+                // FormSubmit envía correo de activación interno, pero mostramos mensaje de éxito al usuario
+                localStorage.setItem("bnt_last_email_sent", Date.now().toString());
+                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+                setForm({
+                    name: "", company: "", email: "", phone: "",
+                    stage: "", service: "", message: "", privacy: false
+                });
                 setStatus("idle");
                 return;
             }
