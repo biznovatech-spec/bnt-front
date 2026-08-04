@@ -15,7 +15,8 @@ import { useHeader } from "../context/HeaderContext";
 
 export default function Home() {
     useSeo({
-        title: "Inicio",
+        title: "Biznovatech",
+        exactTitle: true,
         description: "Analizamos, diseñamos y desarrollamos soluciones digitales a medida para convertir ideas y desafíos reales en productos funcionales, seguros y preparados para crecer."
     });
 

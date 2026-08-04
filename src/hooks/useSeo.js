@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { company } from '../data/company';
 
-export function useSeo({ title, description, preventIndex = false }) {
+export function useSeo({ title, description, preventIndex = false, exactTitle = false }) {
     useEffect(() => {
         // Set document title
-        const formattedTitle = title 
-            ? `${title} — ${company.legalName}`
-            : `${company.legalName} — Consultoría y Desarrollo Tecnológico`;
+        const formattedTitle = exactTitle
+            ? title
+            : (title 
+                ? `${title} — ${company.legalName}`
+                : `${company.legalName} — Consultoría y Desarrollo Tecnológico`);
         
         document.title = formattedTitle;
 
