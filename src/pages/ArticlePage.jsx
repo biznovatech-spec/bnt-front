@@ -1,12 +1,16 @@
 import { useSeo } from "../hooks/useSeo";
 import { useParams, Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import Container from "../ui/container";
-import Breadcrumb from "../ui/breadcrumb";
+import { Breadcrumb, Container, CutPanel, PendingImagePlaceholder, Reveal } from "../ui";
 import { getArticleBySlug } from "../data/resources";
 import { getGeneratedImage } from "../data/generatedImages";
 import { getPendingImage } from "../data/pendingImages";
-import PendingImagePlaceholder from "../ui/pending-image-placeholder";
+const slugToImageId = {
+    "cuanto-cuesta-desarrollar-software": "article-cost",
+    "web-corporativa-o-plataforma": "article-web",
+    "como-digitalizar-un-proceso": "article-process",
+    "cuando-necesitas-software-a-medida": "article-custom"
+};
 
 export default function ArticlePage() {
     const { slug } = useParams();
@@ -21,54 +25,55 @@ export default function ArticlePage() {
         throw new Response("Not Found", { status: 404 });
     }
 
-    const slugToImageId = {
-        "cuanto-cuesta-desarrollar-software": "article-cost",
-        "web-corporativa-o-plataforma": "article-web",
-        "como-digitalizar-un-proceso": "article-process",
-        "cuando-necesitas-software-a-medida": "article-custom"
-    };
-
     const imageId = slugToImageId[slug];
     const heroImage = getGeneratedImage(imageId);
     const pendingImage = !heroImage ? getPendingImage(imageId) : null;
 
     return (
-        <div className="w-full flex flex-col gap-16 lg:gap-20 pb-12">
-            {/* Header / Breadcrumb */}
-            <Container size="standard">
-                <Breadcrumb items={[
-                    { label: "Recursos", to: "/recursos" },
-                    { label: article.category }
-                ]} />
+        <div className="w-full flex flex-col pb-[var(--section-py)]">
+            <Container size="reading">
+                <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: article.category }]} />
             </Container>
 
-            {/* Hero — reading width */}
+            {/* Cabecera del artículo */}
             <Container size="reading">
-                <section className="flex flex-col gap-6 pb-10 border-b border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
-                            {article.category}
+                <header className="flex flex-col gap-6 pt-10 pb-10 border-b bd-hair">
+                    <Reveal dir="none" className="flex flex-wrap items-center gap-4">
+                        <span className="chip chip-accent">{article.category}</span>
+                        <span className="flex items-center gap-2 micro-label t-2">
+                            <Icon icon="lucide:clock" className="w-3.5 h-3.5" aria-hidden="true" />
+                            Lectura de {article.readTime}
                         </span>
-                        <div className="flex items-center gap-2 text-sm text-t-secondary font-medium">
-                            <Icon icon="solar:clock-circle-linear" className="w-4 h-4" />
-                            <span>Lectura de {article.readTime}</span>
-                        </div>
-                    </div>
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                        {article.title}
-                    </h1>
-                    <p className="text-lg text-t-secondary leading-relaxed">
-                        {article.excerpt}
-                    </p>
-                </section>
+                    </Reveal>
 
-                {/* Cover image or placeholder */}
+                    <Reveal delay={80}>
+                        <h1 className="display-lg t-1">{article.title}</h1>
+                    </Reveal>
+
+                    <Reveal delay={160}>
+                        <p className="lead">{article.excerpt}</p>
+                    </Reveal>
+                </header>
+
+                {/* Portada */}
                 {heroImage ? (
-                    <div className="w-full mt-8 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 flex items-center justify-center p-8">
-                        <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-2xl object-contain" loading="eager" />
-                    </div>
+                    <Reveal delay={120} dir="scale" className="mt-10">
+                        <CutPanel surface="plate" cut="34px" className="p-8 flex items-center justify-center">
+                            <div
+                                aria-hidden="true"
+                                className="deco absolute inset-0 grid-hairline opacity-70"
+                                style={{ "--cell": "48px" }}
+                            />
+                            <img
+                                src={heroImage.filename}
+                                alt={heroImage.alt}
+                                className="relative w-full max-w-2xl object-contain"
+                                loading="eager"
+                            />
+                        </CutPanel>
+                    </Reveal>
                 ) : pendingImage ? (
-                    <div className="mt-8">
+                    <div className="mt-10">
                         <PendingImagePlaceholder
                             id={pendingImage.id}
                             title={pendingImage.title}
@@ -82,42 +87,74 @@ export default function ArticlePage() {
                 ) : null}
             </Container>
 
-            {/* Content — reading width */}
+            {/* Cuerpo */}
             <Container size="reading">
-                <article className="flex flex-col gap-10">
+                <article className="flex flex-col gap-10 mt-14">
                     {article.content.map((block, i) => {
                         if (block.type === "intro") {
-                            return <p key={i} className="text-lg text-gray-900 leading-relaxed font-medium">{block.text}</p>;
+                            return (
+                                <Reveal key={i}>
+                                    <p className="text-[var(--fs-lead)] leading-[1.6] t-1 border-l-2 bd-accent pl-6">
+                                        {block.text}
+                                    </p>
+                                </Reveal>
+                            );
                         }
+
                         if (block.type === "section") {
                             return (
-                                <div key={i} className="flex flex-col gap-4">
-                                    <h2 className="text-2xl font-bold text-gray-900 mt-4">{block.title}</h2>
-                                    {block.text && <p className="text-lg text-t-secondary leading-relaxed">{block.text}</p>}
+                                <Reveal key={i} className="flex flex-col gap-5 pt-4">
+                                    <div className="flex items-baseline gap-4">
+                                        <span className="index-num micro-label t-accent shrink-0">
+                                            {String(i).padStart(2, "0")}
+                                        </span>
+                                        <h2 className="display-sm t-1">{block.title}</h2>
+                                    </div>
+
+                                    {block.text && <p className="copy text-[1rem]">{block.text}</p>}
+
                                     {block.items && (
-                                        <ul className="flex flex-col gap-3 mt-2">
+                                        <ul className="flex flex-col mt-1">
                                             {block.items.map((item, j) => (
-                                                <li key={j} className="flex items-start gap-3">
-                                                    <Icon icon="solar:check-circle-bold" className="w-5 h-5 text-primary shrink-0 mt-1" />
-                                                    <span className="text-lg text-gray-700 leading-relaxed">{item}</span>
+                                                <li
+                                                    key={j}
+                                                    className="flex items-start gap-4 py-3.5 border-t bd-hair last:border-b last:bd-hair"
+                                                >
+                                                    <span
+                                                        aria-hidden="true"
+                                                        className="w-1.5 h-1.5 mt-2.5 fill-accent shrink-0"
+                                                    />
+                                                    <span className="copy text-[0.95rem]">{item}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     )}
-                                </div>
+                                </Reveal>
                             );
                         }
+
                         if (block.type === "cta") {
                             return (
-                                <div key={i} className="mt-8 bg-gray-50 rounded-2xl p-8 flex flex-col items-center text-center gap-6 border border-gray-100">
-                                    <p className="text-lg font-medium text-gray-900">{block.text}</p>
-                                    <Link to={block.button.to} className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                                        {block.button.text}
-                                        <Icon icon="solar:arrow-right-linear" className="w-5 h-5" />
-                                    </Link>
-                                </div>
+                                <Reveal key={i} dir="depth" className="mt-8">
+                                    <div className="relative overflow-hidden surface-strong p-10 flex flex-col items-start gap-6">
+                                        <div aria-hidden="true" className="deco absolute inset-0">
+                                            <div
+                                                className="absolute inset-0 grid-hairline"
+                                                style={{ "--cell": "56px" }}
+                                            />
+                                        </div>
+                                        <p className="relative display-xs text-[1.15rem] t-1 max-w-[40ch]">
+                                            {block.text}
+                                        </p>
+                                        <Link to={block.button.to} className="relative btn btn-primary group">
+                                            {block.button.text}
+                                            <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                        </Link>
+                                    </div>
+                                </Reveal>
                             );
                         }
+
                         return null;
                     })}
                 </article>

@@ -1,64 +1,112 @@
-import Title from "../ui/title";
-import Button from "../ui/button";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import { Container, Reveal, SectionHeader } from "../ui";
 import { homeProjects } from "../utils/projects";
 
+/**
+ * Proyectos destacados.
+ *
+ * La pieza principal sangra por el borde derecho de la pantalla —el bloque de
+ * texto queda a la izquierda, sobre la misma línea de la retícula— y el resto
+ * baja a renglones de índice. Sin velos degradados sobre las imágenes: la
+ * etiqueta va en una placa sólida.
+ */
 export default function Project() {
+    const [lead, ...rest] = homeProjects;
+
     return (
-        <section className="w-full py-16" id="projects">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                <div>
-                    <Title variant="primary" titulo="PROYECTOS DESTACADOS" />
-                    <div className="mt-4 max-w-xl">
-                        <Title variant="secondary" titulo="Resultados que hablan por nosotros" />
+        <section className="w-full py-[var(--section-py)] bg-canvas" id="projects">
+            <Container size="wide">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+                    <div className="lg:col-span-8">
+                        <SectionHeader
+                            label="Proyectos destacados"
+                            index="04"
+                            title="Resultados que hablan por nosotros"
+                        />
                     </div>
+                    <Reveal delay={120} className="lg:col-span-4 lg:pb-2 lg:flex lg:justify-end">
+                        <Link to="/casos-de-exito" className="arrow-link group">
+                            <span>Ver todos los casos</span>
+                            <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                        </Link>
+                    </Reveal>
                 </div>
-            </div>
+            </Container>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {homeProjects.map(project => (
-                    <Link
-                        key={project.id}
-                        to={project.link}
-                        className="relative flex flex-col group rounded-md bg-white hover:shadow-md transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm after:absolute after:bottom-0 after:left-0 after:w-full after:h-1.5 after:bg-gradient-to-r after:from-tertiary after:from-50% after:to-primary after:to-50%"
-                    >
-                        <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                                loading="lazy"
-                                width="600"
-                                height="450"
-                            />
-                            <div className="absolute bottom-3 left-3 bg-tertiary/10 px-3 py-1 rounded-lg shadow-sm border border-tertiary/20 backdrop-blur-sm">
-                                <span className="text-xs font-semibold text-tertiary">{project.type}</span>
+            {/* Pieza principal: el medio toca el borde de la pantalla */}
+            <div className="mt-16 w-full max-w-[var(--shell-max)] mx-auto pl-[var(--gutter)]">
+                <Link to={lead.link} className="group grid grid-cols-1 lg:grid-cols-12 items-stretch">
+                    <div className="lg:col-span-5 flex flex-col justify-between gap-8 py-8 lg:py-10 pr-[var(--gutter)] lg:pr-12 border-t bd-hair">
+                        <div className="flex flex-col gap-5">
+                            <div className="flex items-center gap-4">
+                                <span className="index-num micro-label t-accent">01</span>
+                                <span aria-hidden="true" className="w-8 h-px bg-[var(--hair)]" />
+                                <span className="micro-label t-2">
+                                    {lead.type}
+                                </span>
                             </div>
-                        </div>
 
-                        <div className="flex flex-col gap-2 p-5 flex-1">
-                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors">
-                                {project.title}
+                            <h3 className="display-caps text-[clamp(1.8rem,3vw,3rem)] t-1 transition-colors duration-500 group-hover:t-accent">
+                                {lead.title}
                             </h3>
-                            <p className="text-sm text-t-secondary leading-relaxed flex-1 line-clamp-2">
-                                {project.text}
-                            </p>
-                            <span className="text-primary text-sm font-semibold flex items-center gap-1.5 mt-2">
-                                Ver proyecto
-                                <Icon icon="solar:arrow-up-linear" className="w-4 h-4 rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                            </span>
+
+                            <p className="copy max-w-[46ch]">{lead.text}</p>
                         </div>
-                    </Link>
-                ))}
+
+                        <span className="flex items-center gap-3 micro-label t-accent">
+                            Ver proyecto
+                            <Icon icon="lucide:arrow-up-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                        </span>
+                    </div>
+
+                    <div className="lg:col-span-7 media-frame relative aspect-[16/9] lg:aspect-auto lg:min-h-[clamp(320px,34vw,520px)] overflow-hidden border-t border-l bd-hair">
+                        <img
+                            src={lead.image}
+                            alt={lead.title}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            width="1200"
+                            height="675"
+                        />
+                    </div>
+                </Link>
             </div>
 
-            <div className="mt-10 flex justify-center">
-                <Button variant="secondary" to="/casos-de-exito">
-                    Ver todos los casos de éxito
-                    <Icon icon="solar:arrow-right-linear" className="w-5 h-5" />
-                </Button>
-            </div>
+            {/* Resto: renglones de índice */}
+            <Container size="wide">
+                <div className="mt-0">
+                    {rest.map((project, index) => (
+                        <Reveal key={project.id} delay={index * 70} dir="none">
+                            <Link
+                                to={project.link}
+                                className="row group grid-cols-[auto_1fr] md:grid-cols-[3.5rem_minmax(0,0.9fr)_minmax(0,1.2fr)_auto] gap-x-6 gap-y-2 py-7"
+                            >
+                                <span className="index-num micro-label t-3 self-center transition-colors duration-500 group-hover:t-accent">
+                                    {String(index + 2).padStart(2, "0")}
+                                </span>
+
+                                <span className="flex flex-col gap-1.5 min-w-0 self-center">
+                                    <span className="micro-label t-3">
+                                        {project.type}
+                                    </span>
+                                    <span className="display-caps text-[clamp(1.05rem,1.5vw,1.55rem)] t-1 transition-colors duration-500 group-hover:t-accent">
+                                        {project.title}
+                                    </span>
+                                </span>
+
+                                <span className="copy text-[0.9rem] col-span-2 md:col-span-1 md:self-center">
+                                    {project.text}
+                                </span>
+
+                                <span className="hidden md:grid place-items-center w-10 h-10 border border-transparent t-3 self-center transition-all duration-500 group-hover:bd group-hover:t-accent">
+                                    <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                </span>
+                            </Link>
+                        </Reveal>
+                    ))}
+                </div>
+            </Container>
         </section>
     );
 }

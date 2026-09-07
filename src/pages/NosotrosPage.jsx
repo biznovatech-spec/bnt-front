@@ -1,14 +1,10 @@
 import { useSeo } from "../hooks/useSeo";
 import { Icon } from "@iconify/react";
-import Container from "../ui/container";
-import Breadcrumb from "../ui/breadcrumb";
-import SectionHeader from "../ui/section-header";
-import CTASection from "../ui/cta-section";
+import { Breadcrumb, CTASection, Container, CutPanel, Eyebrow, Reveal, SectionHeader } from "../ui";
 import { getGeneratedImage } from "../data/generatedImages";
 import { company } from "../data/company";
 import { team, teamDescription } from "../data/team";
 import { methodology } from "../data/nosotros";
-
 
 export default function NosotrosPage() {
     useSeo({
@@ -18,152 +14,245 @@ export default function NosotrosPage() {
 
     const heroImage = getGeneratedImage("about-editorial");
 
+    const pillars = [
+        { label: "Propósito", value: company.purpose },
+        { label: "Misión", value: company.mission },
+        { label: "Visión", value: company.vision },
+    ];
+
     return (
-        <div className="w-full flex flex-col gap-16 lg:gap-24">
-            <Container size="standard">
+        <div className="w-full flex flex-col">
+            <Container size="wide">
                 <Breadcrumb items={[{ label: "Nosotros" }]} />
-                <section className="flex flex-col gap-8 pt-4" id="quienes-somos">
-                    <SectionHeader
-                        label="NOSOTROS"
-                        title="Conoce a Biznovatech"
-                        as="h1"
-                    />
-                    <div className="flex flex-col lg:flex-row gap-12">
-                        <div className="lg:w-3/5 flex flex-col gap-6">
-                            <p className="text-lg text-t-secondary leading-relaxed">{company.description}</p>
-                            <p className="text-t-secondary leading-relaxed">{company.history}</p>
+            </Container>
+
+            {/* Portada */}
+            <section className="w-full pt-10 pb-[var(--section-py)]" id="quienes-somos">
+                <Container size="wide">
+                    <SectionHeader label="Nosotros" title="Conoce a Biznovatech" as="h1" />
+
+                    <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+                        <div className="lg:col-span-7 flex flex-col gap-6">
+                            <Reveal>
+                                <p className="lead max-w-[62ch]">{company.description}</p>
+                            </Reveal>
+                            <Reveal delay={80}>
+                                <p className="copy max-w-[62ch]">{company.history}</p>
+                            </Reveal>
+
                             {heroImage && (
-                                <div className="mt-4 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-8 flex items-center justify-center">
-                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm object-contain animate-fade-in" loading="eager" />
-                                </div>
+                                <Reveal delay={160} dir="scale" className="mt-4">
+                                    <CutPanel surface="plate" cut="34px" className="p-10 flex items-center justify-center">
+                                        <div
+                                            aria-hidden="true"
+                                            className="deco absolute inset-0 grid-hairline opacity-70"
+                                            style={{ "--cell": "48px" }}
+                                        />
+                                        <img
+                                            src={heroImage.filename}
+                                            alt={heroImage.alt}
+                                            className="relative w-full max-w-sm object-contain"
+                                            loading="eager"
+                                        />
+                                    </CutPanel>
+                                </Reveal>
                             )}
                         </div>
-                        <aside className="lg:w-2/5 flex flex-col gap-4">
-                            <div className="bg-gray-50 rounded-2xl p-6 flex flex-col gap-4">
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-sm font-bold text-t-secondary tracking-widest">PROPÓSITO</span>
-                                    <p className="text-gray-900 leading-relaxed">{company.purpose}</p>
-                                </div>
-                                <div className="h-px bg-gray-200" />
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-sm font-bold text-t-secondary tracking-widest">MISIÓN</span>
-                                    <p className="text-gray-700 text-sm leading-relaxed">{company.mission}</p>
-                                </div>
-                                <div className="h-px bg-gray-200" />
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-sm font-bold text-t-secondary tracking-widest">VISIÓN</span>
-                                    <p className="text-gray-700 text-sm leading-relaxed">{company.vision}</p>
-                                </div>
-                            </div>
-                        </aside>
-                    </div>
-                </section>
-            </Container>
 
-            {/* Values */}
-            <section className="w-full bg-gray-50 py-16 border-y border-gray-100" id="proposito-valores">
-                <Container size="standard">
-                    <div className="flex flex-col gap-10">
-                        <SectionHeader label="VALORES" title="Cómo trabajamos, no solo qué hacemos" />
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {company.values.map((value, i) => (
-                                <div key={value.name} className="flex flex-col gap-3 p-6 bg-white rounded-xl border border-gray-100">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-primary font-bold text-sm">{String(i + 1).padStart(2, '0')}</span>
-                                        <h3 className="font-bold text-gray-900">{value.name}</h3>
+                        <Reveal delay={140} dir="right" className="lg:col-span-5">
+                            <CutPanel cut="30px" className="p-8 lg:p-10 flex flex-col gap-7 lg:sticky lg:top-28">
+                                {pillars.map((pillar, i) => (
+                                    <div key={pillar.label} className={`flex flex-col gap-2.5 ${i > 0 ? "pt-7 border-t bd-hair" : ""}`}>
+                                        <span className="micro-label t-accent">
+                                            {pillar.label}
+                                        </span>
+                                        <p className={i === 0 ? "display-xs text-[1.1rem] t-1" : "copy text-[0.9rem]"}>
+                                            {pillar.value}
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-t-secondary leading-relaxed">{value.description}</p>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </CutPanel>
+                        </Reveal>
                     </div>
                 </Container>
             </section>
 
-            {/* Team */}
-            <Container size="standard">
-                <section className="flex flex-col gap-10" id="equipo">
-                    <SectionHeader label="EQUIPO" title="Las personas detrás de cada proyecto" description={teamDescription} />
-                    <div className="flex flex-col gap-6">
-                        {/* Flow diagram */}
-                        <div className="hidden lg:flex items-center justify-between bg-gray-50 rounded-2xl p-6 gap-4">
-                            <span className="text-sm text-t-secondary font-medium">Necesidad del cliente</span>
-                            {team.map((member) => (
-                                <div key={member.id} className="flex items-center gap-4">
-                                    <Icon icon="solar:arrow-right-linear" className="w-5 h-5 text-gray-300" />
-                                    <div className="flex items-center gap-3 px-4 py-2 rounded-xl border border-primary/20 bg-white relative">
-                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">{member.initial}</div>
-                                        <span className="text-sm font-semibold text-gray-900">{member.stage}</span>
-                                        {/* Conector abstracto entre roles */}
-                                        <div className="absolute top-1/2 -right-8 w-6 h-px bg-primary/20 pointer-events-none hidden lg:block" />
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="flex items-center gap-4">
-                                <Icon icon="solar:arrow-right-linear" className="w-5 h-5 text-gray-300" />
-                                <span className="text-sm text-primary font-bold">Producto</span>
-                            </div>
-                        </div>
-
-                        {/* Team cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {team.map(member => (
-                                <div key={member.id} className="flex flex-col gap-4 p-6 rounded-2xl border border-gray-100">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-                                            <Icon icon={member.icon} className="w-7 h-7 text-primary" />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-gray-900">{member.name}</h3>
-                                            <p className="text-sm text-primary font-medium">{member.role}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-sm text-t-secondary leading-relaxed">{member.description}</p>
-                                    <div className="flex flex-col gap-2 mt-auto">
-                                        {member.responsibilities.slice(0, 4).map((r, respIndex) => (
-                                            <div key={respIndex} className="flex items-center gap-2 text-xs text-gray-600">
-                                                <div className="w-1 h-1 rounded-full bg-primary shrink-0" />
-                                                {r}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            </Container>
-
-            {/* Methodology */}
-            <section className="w-full bg-surface-dark py-16" id="metodologia">
+            {/* Valores */}
+            <section
+                className="w-full py-[var(--section-py)] bg-canvas-2 border-y bd-hair"
+                id="proposito-valores"
+            >
                 <Container size="wide">
-                    <div className="flex flex-col gap-10">
-                        <div className="flex flex-col gap-4">
-                            <span className="inline-flex items-center gap-2 text-sm font-bold tracking-widest text-primary">METODOLOGÍA</span>
-                            <h2 className="text-white text-2xl md:text-3xl font-bold">Cómo abordamos cada proyecto</h2>
-                            <p className="text-gray-400 text-lg leading-relaxed max-w-3xl">Trabajamos con una dinámica ágil y organizada que permite avanzar con claridad en cada fase, adaptándonos a las necesidades específicas del proyecto.</p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                            {methodology.map(m => (
-                                <div key={m.step} className="flex flex-col gap-3 p-5 rounded-xl bg-white/5 border border-white/10">
-                                    <span className="text-primary font-bold text-2xl">{m.step}</span>
-                                    <h3 className="text-white font-bold">{m.title}</h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed">{m.description}</p>
-                                </div>
-                            ))}
-                        </div>
+                    <SectionHeader
+                        label="Valores"
+                        index="01"
+                        title="Cómo trabajamos, no solo qué hacemos"
+                    />
+
+                    <div className="mt-14">
+                        {company.values.map((value, i) => (
+                            <Reveal key={value.name} delay={i * 55} dir="none">
+                                <article className="row group grid-cols-1 md:grid-cols-[minmax(0,6rem)_minmax(0,1fr)_minmax(0,1.4fr)] gap-x-8 gap-y-3 py-9 md:py-11 items-start">
+                                    <span aria-hidden="true" className="ghost-num text-[clamp(2.2rem,4vw,3.6rem)]">
+                                        {String(i + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3 className="display-caps text-[clamp(1.05rem,1.6vw,1.6rem)] t-1 max-w-[16ch] transition-colors duration-500 group-hover:t-accent">
+                                        {value.name}
+                                    </h3>
+                                    <p className="copy max-w-[56ch] md:pt-1">{value.description}</p>
+                                </article>
+                            </Reveal>
+                        ))}
                     </div>
                 </Container>
             </section>
 
-            <Container size="standard">
-                <CTASection
-                    title="¿Quieres conocer cómo trabajamos de cerca?"
-                    description="Cada colaboración empieza con una conversación. Cuéntanos tu idea y veamos cómo podemos ayudarte."
-                    buttonText="Cuéntanos tu idea"
-                    buttonTo="/contacto"
-                />
-            </Container>
+            {/* Equipo */}
+            <section className="w-full py-[var(--section-py)]" id="equipo">
+                <Container size="wide">
+                    <SectionHeader
+                        label="Equipo"
+                        index="02"
+                        title="Las personas detrás de cada proyecto"
+                        description={teamDescription}
+                    />
+
+                    {/* Diagrama de flujo */}
+                    <Reveal delay={100} dir="none" className="hidden lg:block mt-14">
+                        <div className="flex items-stretch border bd-hair">
+                            <div className="flex items-center px-6 py-5 shrink-0">
+                                <span className="micro-label t-2">
+                                    Necesidad del cliente
+                                </span>
+                            </div>
+
+                            {team.map((member) => (
+                                <div
+                                    key={member.id}
+                                    className="flex items-center gap-4 px-6 py-5 border-l bd-hair flex-1"
+                                >
+                                    <span className="grid place-items-center w-9 h-9 border bd index-num text-[0.75rem] t-accent shrink-0">
+                                        {member.initial}
+                                    </span>
+                                    <span className="text-sm font-semibold t-1">
+                                        {member.stage}
+                                    </span>
+                                </div>
+                            ))}
+
+                            <div className="flex items-center gap-3 px-6 py-5 border-l bd-hair bg-2 shrink-0">
+                                <Icon
+                                    icon="lucide:arrow-right"
+                                    className="w-4 h-4 t-accent"
+                                    aria-hidden="true"
+                                />
+                                <span className="micro-label t-accent">Producto</span>
+                            </div>
+                        </div>
+                    </Reveal>
+
+                    {/* Fichas del equipo */}
+                    <div className="mt-8 band grid-cols-1 md:grid-cols-3">
+                        {team.map((member, i) => (
+                            <Reveal key={member.id} delay={i * 70} dir="none" className="h-full">
+                                <div className="group h-full flex flex-col gap-5 p-8 transition-colors duration-500 hover:bg-2">
+                                    <div className="flex items-center gap-4">
+                                        <span className="grid place-items-center w-12 h-12 border bd t-accent transition-colors duration-500 group-hover:border-current">
+                                            <Icon icon={member.icon} className="w-5 h-5" aria-hidden="true" />
+                                        </span>
+                                        <span className="flex flex-col gap-1">
+                                            <span className="display-xs text-[1.05rem] t-1">
+                                                {member.name}
+                                            </span>
+                                            <span className="micro-label t-accent">
+                                                {member.role}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <p className="copy text-[0.88rem]">{member.description}</p>
+
+                                    <ul className="flex flex-col mt-auto">
+                                        {member.responsibilities.slice(0, 4).map((r, respIndex) => (
+                                            <li
+                                                key={respIndex}
+                                                className="flex items-start gap-3 py-2.5 border-t bd-hair text-[0.82rem] t-2"
+                                            >
+                                                <span
+                                                    aria-hidden="true"
+                                                    className="w-1 h-1 mt-2 fill-accent shrink-0"
+                                                />
+                                                {r}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
+                </Container>
+            </section>
+
+            {/* Metodología */}
+            <section className="w-full py-[var(--section-py)] surface-strong relative overflow-hidden" id="metodologia">
+                <div aria-hidden="true" className="deco absolute inset-0">
+                    <div
+                        className="absolute inset-0 grid-hairline"
+                        style={{ "--cell": "clamp(56px, 6vw, 104px)" }}
+                    />
+                </div>
+
+                <Container size="wide" className="relative z-10">
+                    <div className="flex flex-col gap-6 max-w-3xl">
+                        <Reveal dir="none">
+                            <Eyebrow className="t-accent">Metodología</Eyebrow>
+                        </Reveal>
+                        <Reveal delay={80}>
+                            <h2 className="display-caps t-1 max-w-[18ch]">Cómo abordamos cada proyecto</h2>
+                        </Reveal>
+                        <Reveal delay={150}>
+                            <p className="text-[var(--fs-lead)] leading-relaxed t-2 max-w-[60ch]">
+                                Trabajamos con una dinámica ágil y organizada que permite avanzar con claridad en
+                                cada fase, adaptándonos a las necesidades específicas del proyecto.
+                            </p>
+                        </Reveal>
+                    </div>
+
+                    <div className="mt-16 grid grid-cols-1 md:grid-cols-5 border-y bd-hair">
+                        {methodology.map((m, i) => (
+                            <Reveal
+                                key={m.step}
+                                dir="none"
+                                delay={i * 70}
+                                className={`flex flex-col gap-6 px-6 md:px-7 py-10 md:py-12 ${
+                                    i > 0 ? "border-t bd-hair md:border-t-0 md:border-l" : ""
+                                }`}
+                            >
+                                <span aria-hidden="true" className="num-solid text-[clamp(2.6rem,4.4vw,4rem)] t-1-mute">
+                                    {m.step}
+                                </span>
+                                <h3 className="display-caps text-[clamp(0.95rem,1.1vw,1.15rem)] t-1">
+                                    {m.title}
+                                </h3>
+                                <p className="text-[0.85rem] leading-relaxed t-2 max-w-[28ch]">
+                                    {m.description}
+                                </p>
+                            </Reveal>
+                        ))}
+                    </div>
+                </Container>
+            </section>
+
+            <div className="py-[var(--section-py)]">
+                <Container size="wide">
+                    <CTASection
+                        title="¿Quieres conocer cómo trabajamos de cerca?"
+                        description="Cada colaboración empieza con una conversación. Cuéntanos tu idea y veamos cómo podemos ayudarte."
+                        buttonText="Cuéntanos tu idea"
+                        buttonTo="/contacto"
+                    />
+                </Container>
+            </div>
         </div>
     );
 }

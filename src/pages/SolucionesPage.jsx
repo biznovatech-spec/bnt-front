@@ -1,10 +1,7 @@
 import { useSeo } from "../hooks/useSeo";
-import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import Container from "../ui/container";
-import SectionHeader from "../ui/section-header";
-import Breadcrumb from "../ui/breadcrumb";
-import CTASection from "../ui/cta-section";
+import { Link } from "react-router-dom";
+import { Breadcrumb, CTASection, Container, CutPanel, Reveal, SectionHeader } from "../ui";
 import { getGeneratedImage } from "../data/generatedImages";
 import { solutions } from "../data/solutions";
 
@@ -17,67 +14,102 @@ export default function SolucionesPage() {
     const heroImage = getGeneratedImage("solutions-editorial");
 
     return (
-        <div className="w-full flex flex-col gap-16 lg:gap-24">
-            <Container size="standard">
+        <div className="w-full flex flex-col">
+            <Container size="wide">
                 <Breadcrumb items={[{ label: "Soluciones" }]} />
-                <section className="flex flex-col gap-8 pt-4 pb-8">
-                    <div className="flex flex-col lg:flex-row gap-12 items-center">
-                        <div className="lg:w-1/2">
+            </Container>
+
+            {/* Portada */}
+            <section className="w-full pt-10 pb-[var(--section-py)]">
+                <Container size="wide">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                        <div className="lg:col-span-7">
                             <SectionHeader
-                                label="SOLUCIONES"
+                                label="Soluciones"
                                 title="¿Qué necesitas resolver?"
                                 description="No importa si partes de una idea inicial, de un proceso manual o de un sistema que necesita mejorar. Identifica tu situación y descubre cómo podemos acompañarte."
                                 as="h1"
                             />
                         </div>
+
                         {heroImage && (
-                            <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                                <div className="overflow-hidden p-8 flex items-center justify-center max-w-sm w-full ">
-                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full max-w-sm  object-contain animate-fade-in scale-125" loading="eager" />
-                                </div>
-                            </div>
+                            <Reveal delay={180} dir="scale" className="lg:col-span-5">
+                                <CutPanel surface="plate" cut="34px" className="p-10 flex items-center justify-center">
+                                    <div
+                                        aria-hidden="true"
+                                        className="deco absolute inset-0 grid-hairline opacity-70"
+                                        style={{ "--cell": "48px" }}
+                                    />
+                                    <img
+                                        src={heroImage.filename}
+                                        alt={heroImage.alt}
+                                        className="relative w-full max-w-sm object-contain"
+                                        loading="eager"
+                                    />
+                                </CutPanel>
+                            </Reveal>
                         )}
                     </div>
-                </section>
-            </Container>
+                </Container>
+            </section>
 
-            <Container size="standard">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {solutions.map((solution, index) => (
-                        <Link
-                            key={solution.slug}
-                            to={`/soluciones/${solution.slug}`}
-                            className="flex flex-col gap-5 p-6 lg:p-8 rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-sm transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                                    <Icon icon={solution.icon} className="w-5 h-5 text-primary" />
-                                </div>
-                                <span className="text-xs font-bold text-t-secondary tracking-widest">
-                                    {String(index + 1).padStart(2, '0')}
-                                </span>
-                            </div>
-                            <h2 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors">{solution.title}</h2>
-                            <p className="text-sm text-primary font-medium italic">&ldquo;{solution.situation}&rdquo;</p>
-                            <p className="text-t-secondary text-sm leading-relaxed flex-1">{solution.description.slice(0, 200)}...</p>
-                            <span className="text-primary text-sm font-semibold flex items-center gap-1.5 mt-auto">
-                                Explorar solución
-                                <Icon icon="solar:arrow-up-linear" className="w-4 h-4 rotate-45" />
-                            </span>
-                        </Link>
-                    ))}
-                </div>
-            </Container>
+            {/* Catálogo de soluciones */}
+            <section className="w-full pb-[var(--section-py)]">
+                <Container size="wide">
+                    <div>
+                        {solutions.map((solution, index) => (
+                            <Reveal key={solution.slug} delay={index * 55} dir="none">
+                                <Link
+                                    to={`/soluciones/${solution.slug}`}
+                                    className="row group grid-cols-1 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.25fr)_auto] gap-x-8 gap-y-3 py-9 md:py-11 items-start"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        className="ghost-num text-[clamp(2rem,3.4vw,3.2rem)]"
+                                    >
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
 
-            <Container size="standard">
-                <CTASection
-                    title="¿No encuentras tu situación?"
-                    description="Cada proyecto es diferente. Cuéntanos tu contexto y te orientamos hacia la solución adecuada."
-                    buttonText="Cuéntanos tu situación"
-                    buttonTo="/contacto"
-                    variant="dark"
-                />
-            </Container>
+                                    <span className="flex flex-col gap-3 min-w-0">
+                                        <span className="flex items-center gap-3">
+                                            <Icon
+                                                icon={solution.icon}
+                                                className="w-5 h-5 shrink-0 t-3 transition-colors duration-500 group-hover:t-accent"
+                                                aria-hidden="true"
+                                            />
+                                            <h2 className="display-caps text-[clamp(1.1rem,1.7vw,1.7rem)] t-1 transition-colors duration-500 group-hover:t-accent">
+                                                {solution.title}
+                                            </h2>
+                                        </span>
+                                        <span className="text-[0.92rem] leading-relaxed t-accent border-l bd pl-4 max-w-[36ch]">
+                                            &ldquo;{solution.situation}&rdquo;
+                                        </span>
+                                    </span>
+
+                                    <span className="copy text-[0.9rem] md:pt-1">
+                                        {solution.description.slice(0, 190)}...
+                                    </span>
+
+                                    <span className="hidden md:grid place-items-center w-10 h-10 border border-transparent t-3 transition-all duration-500 group-hover:bd group-hover:t-accent">
+                                        <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                    </span>
+                                </Link>
+                            </Reveal>
+                        ))}
+                    </div>
+                </Container>
+            </section>
+
+            <div className="pb-[var(--section-py)]">
+                <Container size="wide">
+                    <CTASection
+                        title="¿No encuentras tu situación?"
+                        description="Cada proyecto es diferente. Cuéntanos tu contexto y te orientamos hacia la solución adecuada."
+                        buttonText="Cuéntanos tu situación"
+                        buttonTo="/contacto"
+                    />
+                </Container>
+            </div>
         </div>
     );
 }

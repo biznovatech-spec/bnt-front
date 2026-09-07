@@ -1,86 +1,1324 @@
 @import "tailwindcss";
 
+/* ============================================================
+   BIZNOVATECH — SISTEMA DE DISEÑO "PRECISION GRID"
+   Paleta original respetada (#0A84FF / #25C6FD / #062A73 / #0F172A).
+   Solo se añaden matices derivados de los mismos tonos.
+   ============================================================ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  /* Marquee animation */
-  --animate-scroll: scroll 30s linear infinite;
+  /* ---------- Tipografía ---------- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 
-  @keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Fade-in animation */
-  --animate-fade-in: fade-in 0.4s ease-out both;
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Color tokens */
+  /* ---------- Color: marca (sin cambios) ---------- */
   --color-primary: #0A84FF;
   --color-primary-hover: #0066E8;
-
   --color-secondary: #062A73;
   --color-tertiary: #25C6FD;
   --color-tertiary-hover: #1DB0E6;
   --color-accent: #2DB5FF;
 
+  /* ---------- Color: superficies ---------- */
   --color-background: #FFFFFF;
   --color-surface: #FFFFFF;
-  --color-surface-dark: #0F172A;
+  --color-paper: #F6F8FB;
+  --color-paper-2: #EDF2F8;
 
+  --color-ink: #060B16;
+  --color-surface-dark: #0F172A;
+  --color-ink-2: #0A1122;
+
+  /* ---------- Color: texto ---------- */
   --color-t-primary: #111827;
   --color-t-secondary: #4B5563;
+  --color-t-invert: #E8EEF7;
+  --color-t-invert-2: #94A7C0;
 
   --color-border: #E5E7EB;
-
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
-  --header-compact-height: 70px;
+  /* ---------- Geometría ---------- */
+  --chamfer: 14px;
+  --chamfer-sm: 9px;
+
+  /* ---------- Ritmo / medidas fluidas ---------- */
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --section-py: clamp(4.5rem, 9vw, 9.5rem);
+  --shell-max: 1600px;
+  --header-compact-height: 76px;
+
+  /* ---------- Escala tipográfica fluida ---------- */
+  --fs-display: clamp(2.6rem, 6.2vw, 6.4rem);
+  --fs-h2: clamp(2rem, 3.6vw + 0.6rem, 3.9rem);
+  --fs-h3: clamp(1.25rem, 1vw + 0.9rem, 1.75rem);
+  --fs-lead: clamp(1.02rem, 0.5vw + 0.85rem, 1.3rem);
+  --fs-body: clamp(0.9rem, 0.25vw + 0.82rem, 1rem);
+  --fs-micro: clamp(0.62rem, 0.16vw + 0.58rem, 0.72rem);
+
+  /* legado (aún referenciado en algunas vistas) */
+  --fluid-nav-px: clamp(1.25rem, 4vw, 3rem);
+  --fluid-nav-py: clamp(0.75rem, 2vh, 1.25rem);
+  --fluid-hero-h1: clamp(2.6rem, 6.2vw, 6.4rem);
+  --fluid-hero-p: clamp(1.02rem, 0.5vw + 0.85rem, 1.3rem);
+
+  /* ---------- Movimiento ---------- */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-scroll: scroll 46s linear infinite;
+  @keyframes scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+  }
+
+  --animate-fade-in: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  @keyframes fade-in {
+    from { opacity: 0; transform: translate3d(0, 8px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  --animate-sheen: sheen 3.2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  @keyframes sheen {
+    0%        { transform: translate3d(-130%, 0, 0); }
+    55%, 100% { transform: translate3d(230%, 0, 0); }
+  }
+
+  --animate-hero-float: hero-float 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  @keyframes hero-float {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(0, -14px, 0); }
+  }
+
+  --animate-ring-spin: ring-spin 48s linear infinite;
+  @keyframes ring-spin {
+    from { transform: translateZ(calc(var(--ring-r) * -1)) rotateY(0deg); }
+    to   { transform: translateZ(calc(var(--ring-r) * -1)) rotateY(-360deg); }
+  }
+
+  --animate-load-sweep: load-sweep 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  @keyframes load-sweep {
+    0%   { transform: scaleX(0); transform-origin: left; }
+    45%  { transform: scaleX(1); transform-origin: left; }
+    55%  { transform: scaleX(1); transform-origin: right; }
+    100% { transform: scaleX(0); transform-origin: right; }
+  }
+
+  --animate-load-tick: load-tick 1.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  @keyframes load-tick {
+    0%, 100% { opacity: 0.18; transform: scale(0.7); }
+    50%      { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes ticker-step {
+    0%, 12.7%      { transform: translateY(0); }
+    16.667%, 29.3% { transform: translateY(-16.6667%); }
+    33.3%, 46%     { transform: translateY(-33.3333%); }
+    50%, 62.7%     { transform: translateY(-50%); }
+    66.667%, 79.3% { transform: translateY(-66.6667%); }
+    83.333%, 100%  { transform: translateY(-83.3333%); }
+  }
+
+  --animate-pulse-dot: pulse-dot 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.35; transform: scale(0.7); }
+  }
 }
 
-section[id] {
-  scroll-margin-top: var(--header-compact-height);
+/* ============================================================
+   TOKENS POR SUPERFICIE — la base del sistema
+
+   Cada superficie (clara, oscura o de tinta) redefine el mismo juego de
+   variables. Los componentes NO saben en qué tema están: leen los tokens y
+   se resuelven solos, también dentro de un bloque invertido. Por eso no hace
+   falta duplicar cada color con una variante `dark:`.
+
+   Cambiar la identidad del sitio es cambiar este bloque.
+   ============================================================ */
+
+:root {
+  /* Lienzo */
+  --canvas: #FFFFFF;
+  --canvas-2: #F6F8FB;
+
+  /* Superficies de panel */
+  --panel-bg: #FFFFFF;
+  --panel-bg-2: #F6F8FB;
+
+  /* Texto: tres niveles */
+  --text-1: #111827;
+  --text-2: #4B5563;
+  --text-3: rgba(55, 65, 81, 0.86);
+
+  /* Filetes */
+  --panel-bd: rgba(17, 24, 39, 0.12);
+  --panel-bd-strong: rgba(17, 24, 39, 0.22);
+  --hair: rgba(17, 24, 39, 0.12);
+  --hair-soft: rgba(17, 24, 39, 0.07);
+
+  /* Acento */
+  --accent-ink: var(--color-primary);
+  --accent-bg: var(--color-primary);
+  --accent-on: #FFFFFF;
+  --tick: var(--color-primary);
+
+  --shadow-panel: none;
+  --shadow-lift: none;
 }
 
-/* Reduced motion: pause marquee and disable fade animations */
+.dark {
+  --canvas: #060B16;
+  --canvas-2: #0A1122;
+
+  --panel-bg: #0B1220;
+  --panel-bg-2: #0A1122;
+
+  --text-1: #E8EEF7;
+  --text-2: #9DB0C8;
+  --text-3: rgba(157, 176, 200, 0.8);
+
+  --panel-bd: rgba(255, 255, 255, 0.12);
+  --panel-bd-strong: rgba(255, 255, 255, 0.24);
+  --hair: rgba(255, 255, 255, 0.11);
+  --hair-soft: rgba(255, 255, 255, 0.06);
+
+  --accent-ink: var(--color-tertiary);
+  --accent-bg: var(--color-tertiary);
+  --accent-on: #04101f;
+  --tick: var(--color-tertiary);
+}
+
+/* Superficie de contraste: los bloques que deben separarse del lienzo
+   (cierre, pie, metodología, aviso superior…). NO son "siempre oscuros":
+   siguen el tema, solo que un escalón por encima del lienzo. En claro son
+   una placa de papel; en oscuro, un azul de noche. */
+.surface-strong {
+  --canvas: #EDF2F8;
+  --canvas-2: #E4EBF4;
+
+  --panel-bg: #FFFFFF;
+  --panel-bg-2: #F6F8FB;
+
+  --text-1: #060B16;
+  --text-2: #46536A;
+  --text-3: rgba(70, 83, 106, 0.88);
+
+  --panel-bd: rgba(6, 11, 22, 0.16);
+  --panel-bd-strong: rgba(6, 11, 22, 0.3);
+  --hair: rgba(6, 11, 22, 0.14);
+  --hair-soft: rgba(6, 11, 22, 0.08);
+
+  --accent-ink: var(--color-primary);
+  --accent-bg: var(--color-primary);
+  --accent-on: #FFFFFF;
+  --tick: var(--color-primary);
+
+  background-color: var(--canvas);
+  color: var(--text-1);
+}
+
+.dark .surface-strong {
+  --canvas: #0C1526;
+  --canvas-2: #0E1A2E;
+
+  --panel-bg: #121D33;
+  --panel-bg-2: #0F1A2D;
+
+  --text-1: #E8EEF7;
+  --text-2: #9DB0C8;
+  --text-3: rgba(157, 176, 200, 0.8);
+
+  --panel-bd: rgba(255, 255, 255, 0.14);
+  --panel-bd-strong: rgba(255, 255, 255, 0.26);
+  --hair: rgba(255, 255, 255, 0.13);
+  --hair-soft: rgba(255, 255, 255, 0.07);
+
+  --accent-ink: var(--color-tertiary);
+  --accent-bg: var(--color-tertiary);
+  --accent-on: #04101f;
+  --tick: var(--color-tertiary);
+}
+
+/* ============================================================
+   CAPA DE COMPONENTES
+
+   Todo el sistema vive en @layer components para que las utilidades
+   de Tailwind (que se declaran después) puedan seguir ajustando casos
+   puntuales: `hidden`, `text-[…]`, `border-0`… sin pelearse con estas
+   reglas ni obligar a usar !important.
+   ============================================================ */
+
+@layer components {
+  /* ============================================================
+     BASE
+     ============================================================ */
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--canvas);
+    color: var(--text-1);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-tertiary);
+    color: #04101f;
+  }
+
+  /* Cambio de tema: sin transiciones a medio camino */
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: none !important;
+  }
+
+  section[id] { scroll-margin-top: calc(var(--header-compact-height) + 24px); }
+
+  /* Los overlays decorativos nunca capturan el puntero */
+  .deco { pointer-events: none; user-select: none; }
+
+  /* ============================================================
+     TIPOGRAFÍA DE MARCA
+     ============================================================ */
+
+  .font-display { font-family: var(--font-display); }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+  }
+
+  .display-hero {
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 4vw, 4rem);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  .display-sm {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
+
+  .display-xs {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  /* Titular de portada: la pieza más grande del sistema */
+  .display-mega {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5.6vw, 5.8rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+
+  /* Titular de sección en versalitas, un escalón por debajo del mega */
+  .display-caps {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.4vw + 0.4rem, 3.6rem);
+    font-weight: 700;
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+
+  /* Escalera: tres profundidades de sangría para titulares */
+  .stair-1 { display: block; padding-left: min(9vw, 5.5rem); }
+  .stair-2 { display: block; padding-left: min(18vw, 11rem); }
+  .stair-3 { display: block; padding-left: min(27vw, 16.5rem); }
+
+  /* Número de sección sobredimensionado, dibujado solo con contorno */
+  .ghost-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--panel-bd-strong);
+    user-select: none;
+    transition: -webkit-text-stroke-color 0.5s var(--ease-expo);
+  }
+
+  .group:hover .ghost-num,
+  .row:hover .ghost-num { -webkit-text-stroke-color: var(--tick); }
+
+  /* Etiqueta vertical del raíl lateral */
+  .vrail {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  /* Párrafo de entrada */
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  /* Cuerpo estándar */
+  .copy {
+    font-size: var(--fs-body);
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+
+  /* ------------------------------------------------------------
+     ÁTOMOS DE COLOR
+     Un rol = una clase. Funcionan igual en claro, oscuro y sobre
+     una superficie de tinta, porque solo leen tokens.
+     ------------------------------------------------------------ */
+
+  .t-1 { color: var(--text-1); }
+  .t-2 { color: var(--text-2); }
+  .t-3 { color: var(--text-3); }
+  .t-accent { color: var(--accent-ink); }
+
+  .bg-1 { background-color: var(--panel-bg); }
+  .bg-2 { background-color: var(--panel-bg-2); }
+  .bg-canvas { background-color: var(--canvas); }
+  .bg-canvas-2 { background-color: var(--canvas-2); }
+  /* `bg-accent` chocaría con la utilidad homónima de Tailwind: este es el relleno de marca */
+  .fill-accent { background-color: var(--accent-bg); color: var(--accent-on); }
+
+  /* Escala de intensidad del texto principal (para rótulos apagados,
+     números fantasma y estados inactivos) */
+  .t-1-soft { color: color-mix(in srgb, var(--text-1) 82%, transparent); }
+  .t-1-dim  { color: color-mix(in srgb, var(--text-1) 55%, transparent); }
+  .t-1-mute { color: color-mix(in srgb, var(--text-1) 50%, transparent); }
+  .t-1-faint{ color: color-mix(in srgb, var(--text-1) 15%, transparent); }
+
+  /* Acento en distintas densidades */
+  .fill-accent-soft { background-color: color-mix(in srgb, var(--accent-ink) 40%, transparent); }
+  .fill-accent-faint { background-color: color-mix(in srgb, var(--accent-ink) 12%, transparent); }
+  .bd-accent-soft { border-color: color-mix(in srgb, var(--accent-ink) 30%, transparent); }
+  .bd-accent-faint { border-color: color-mix(in srgb, var(--accent-ink) 14%, transparent); }
+  .bg-hair { background-color: var(--hair); }
+
+  /* Velo para menús y overlays */
+  .scrim { background-color: color-mix(in srgb, #060B16 55%, transparent); }
+
+  /* ------------------------------------------------------------
+     ESTADOS DE LOS ÁTOMOS
+     Las variantes de Tailwind (`hover:`, `group-hover:`) solo alcanzan a sus
+     propias utilidades, así que los estados del sistema se declaran aquí.
+     ------------------------------------------------------------ */
+
+  .hover\:t-1:hover { color: var(--text-1); }
+  .hover\:t-2:hover { color: var(--text-2); }
+  .hover\:t-accent:hover { color: var(--accent-ink); }
+  .hover\:bd:hover { border-color: var(--panel-bd); }
+  .hover\:bd-strong:hover { border-color: var(--panel-bd-strong); }
+  .hover\:bd-accent:hover { border-color: var(--accent-ink); }
+  .hover\:bg-2:hover { background-color: var(--panel-bg-2); }
+  .hover\:fill-accent:hover { background-color: var(--accent-bg); color: var(--accent-on); }
+
+  .group:hover .group-hover\:t-1 { color: var(--text-1); }
+  .group:hover .group-hover\:t-2 { color: var(--text-2); }
+  .group:hover .group-hover\:t-accent { color: var(--accent-ink); }
+  .group:hover .group-hover\:bd { border-color: var(--panel-bd); }
+  .group:hover .group-hover\:bd-strong { border-color: var(--panel-bd-strong); }
+  .group:hover .group-hover\:bd-accent { border-color: var(--accent-ink); }
+  .group:hover .group-hover\:fill-accent-faint { background-color: color-mix(in srgb, var(--accent-ink) 12%, transparent); }
+
+  /* El teclado recibe el mismo trato que el ratón */
+  .group:focus-visible .group-hover\:t-accent,
+  .group:focus-within .group-hover\:t-accent { color: var(--accent-ink); }
+
+  .bd { border-color: var(--panel-bd); }
+  .bd-strong { border-color: var(--panel-bd-strong); }
+  .bd-accent { border-color: var(--accent-ink); }
+  .bd-hair { border-color: var(--hair); }
+
+  /* Micro-etiqueta monoespaciada: [ ANÁLISIS ] */
+  .micro-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* Numeración de índice: 01. 02. 03. */
+  .index-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+
+  /* Sangría en escalera para titulares */
+  .stair-in { display: block; padding-left: min(20vw, 13rem); }
+  .stair-sm { display: block; padding-left: min(12vw, 7rem); }
+
+  /* Palabra acentuada dentro de un titular */
+  .accent-word { color: var(--accent-ink); }
+
+  /* ============================================================
+     GEOMETRÍA — biseles tipo "chamfer" (solo en cajas rellenas)
+     ============================================================ */
+
+  .chamfer {
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--chamfer)) 0,
+      100% var(--chamfer),
+      100% 100%,
+      var(--chamfer) 100%,
+      0 calc(100% - var(--chamfer))
+    );
+  }
+
+  .chamfer-sm {
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--chamfer-sm)) 0,
+      100% var(--chamfer-sm),
+      100% 100%,
+      var(--chamfer-sm) 100%,
+      0 calc(100% - var(--chamfer-sm))
+    );
+  }
+
+  /* Corte único inferior-izquierdo (marcos de imagen / medios) */
+  .chamfer-bl {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      calc(var(--chamfer) + 8px) 100%,
+      0 calc(100% - var(--chamfer) - 8px)
+    );
+  }
+
+  /* ============================================================
+     HAIRLINES — el andamiaje visible del sitio
+     ============================================================ */
+
+  .hair-t { border-top: 1px solid var(--hair); }
+  .hair-b { border-bottom: 1px solid var(--hair); }
+  .hair-l { border-left: 1px solid var(--hair); }
+  .hair-r { border-right: 1px solid var(--hair); }
+  .hair-all { border: 1px solid var(--hair); }
+
+  /* Regla horizontal que se desvanece hacia el acento */
+  .rule-accent {
+    height: 1px;
+    background: var(--accent-ink);
+  }
+
+  /* Regla de sección: línea completa con un tramo de acento a la izquierda */
+  .rule-section {
+    position: relative;
+    height: 1px;
+    background: var(--hair);
+  }
+  .rule-section::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 84px;
+    height: 1px;
+    background: var(--accent-ink);
+  }
+
+  /* ============================================================
+     RETÍCULA DE PRECISIÓN (hairlines + cruces)
+     ============================================================ */
+
+  .grid-hairline {
+    --line: rgba(17, 24, 39, 0.07);
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: var(--cell, 96px) var(--cell, 96px);
+  }
+
+  .dark .grid-hairline { --line: rgba(255, 255, 255, 0.05); }
+
+  /* La retícula se atenúa bajando su alfa, no con una máscara difusa */
+  .grid-fade { --line: rgba(17, 24, 39, 0.045); }
+  .dark .grid-fade { --line: rgba(255, 255, 255, 0.035); }
+
+  /* Cruz de intersección */
+  .plus-mark { position: absolute; width: 11px; height: 11px; }
+  .plus-mark::before,
+  .plus-mark::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  .plus-mark::before { left: 0; top: 5px; width: 11px; height: 1px; }
+  .plus-mark::after  { top: 0; left: 5px; width: 1px; height: 11px; }
+
+  /* ============================================================
+     PANEL — la única "tarjeta" del sistema
+     Esquinas rectas, filete de 1px y escuadras que se dibujan al hover.
+     ============================================================ */
+
+  .panel {
+    position: relative;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-bd);
+    box-shadow: var(--shadow-panel);
+    transition:
+      border-color 0.4s var(--ease-expo),
+      background-color 0.4s var(--ease-expo),
+      box-shadow 0.5s var(--ease-expo),
+      transform 0.5s var(--ease-expo);
+  }
+
+  .panel-quiet { background: var(--panel-bg-2); }
+
+  /* Lámina: las ilustraciones traen fondo claro propio, así que se enmarcan
+     sobre una placa blanca deliberada en lugar de flotar sobre la tinta. */
+  .plate { background: #FFFFFF; border: 1px solid var(--hair); }
+  .plate-fill { background: #FFFFFF; }
+  .plate .grid-hairline { --line: rgba(17, 24, 39, 0.06); }
+
+  /* Sin filete propio: se usa dentro de rejillas con costura de 1px (gap-px).
+     Dentro de una costura no se eleva: rompería la continuidad de la línea. */
+  .panel-seam { border: 0; box-shadow: none; }
+  .panel-seam.panel-i:hover,
+  .panel-seam.panel-i:focus-within { transform: none; box-shadow: none; }
+
+  /* Transparente: hereda el fondo de la sección */
+  .panel-ghost { background: transparent; }
+
+  /* Escuadras en las cuatro esquinas (una sola capa, solo opacidad) */
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-expo);
+    background:
+      linear-gradient(var(--tick), var(--tick)) 0 0 / 1px 16px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 0 0 / 16px 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 100% 0 / 1px 16px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 100% 0 / 16px 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 0 100% / 1px 16px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 0 100% / 16px 1px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 100% 100% / 1px 16px no-repeat,
+      linear-gradient(var(--tick), var(--tick)) 100% 100% / 16px 1px no-repeat;
+  }
+
+  .panel-i:hover,
+  .panel-i:focus-within {
+    border-color: color-mix(in srgb, var(--tick) 55%, transparent);
+    transform: translate3d(0, -3px, 0);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .panel-i:hover::before,
+  .panel-i:focus-within::before { opacity: 1; }
+
+  .panel-i:hover { background: var(--panel-bg-2); }
+
+  /* Barrido de acento en el borde superior del panel */
+  .panel-sweep::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--tick);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-expo);
+    pointer-events: none;
+  }
+  .panel-i.panel-sweep:hover::after,
+  .panel-i.panel-sweep:focus-within::after { transform: scaleX(1); }
+
+  /* ============================================================
+     BANDA DE COLUMNAS — capítulos separados por filetes verticales
+     ============================================================ */
+
+  .band { display: grid; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+  .band > * { border-left: 1px solid var(--hair); }
+  .band > *:first-child { border-left: 0; }
+
+  /* Apilada, la costura pasa de vertical a horizontal */
+  @media (max-width: 767px) {
+    .band > * { border-left: 0; border-top: 1px solid var(--hair); }
+    .band > *:first-child { border-top: 0; }
+  }
+
+  /* Número sólido a gran escala (contraparte del contorno) */
+  .num-solid {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.78;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Marcador de capítulo: regla a todo el ancho con número y etiqueta */
+  .chapter {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  /* ============================================================
+     ÍNDICE DE ETAPAS — el listado de la sección "para quién construimos"
+
+     La fila entera se desplaza con una curva expo larga y la barra de acento
+     crece desde el centro hacia arriba y abajo, que se lee mucho más suave
+     que un barrido desde el borde superior.
+     ============================================================ */
+
+  .stage-row {
+    padding-left: 1.5rem;
+    transition:
+      padding-left 0.65s var(--ease-expo),
+      background-color 0.65s var(--ease-expo);
+  }
+
+  .stage-row:hover,
+  .stage-row.is-on { padding-left: 2.25rem; background-color: var(--panel-bg-2); }
+
+  .stage-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-ink);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.7s var(--ease-expo);
+  }
+
+  .stage-row.is-on .stage-bar { transform: scaleY(1); }
+
+  /* ============================================================
+     FILA DE ÍNDICE — listado editorial en lugar de rejilla de tarjetas
+     ============================================================ */
+
+  .row {
+    position: relative;
+    display: grid;
+    align-items: center;
+    border-top: 1px solid var(--hair);
+    transition: background-color 0.45s var(--ease-expo), padding-left 0.5s var(--ease-expo);
+  }
+
+  .row:last-child { border-bottom: 1px solid var(--hair); }
+
+  /* Barra de acento que crece desde el borde izquierdo */
+  .row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    bottom: -1px;
+    width: 2px;
+    background: var(--tick);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s var(--ease-expo);
+  }
+
+  .row:hover::before,
+  .row:focus-within::before { transform: scaleY(1); }
+  .row:hover,
+  .row:focus-within { padding-left: 1.5rem; background: var(--panel-bg-2); }
+
+  /* ============================================================
+     ESCENA DE HORIZONTE — la portada en pantallas pequeñas
+
+     El volumen lo pone el terreno de alambre (WebGL); aquí viven las piezas
+     dibujadas que lo acompañan: la retícula de enfoque del isotipo, las
+     plomadas que lo amarran a la malla y el teletipo de fases.
+     ============================================================ */
+
+  /* Retícula de enfoque: cuatro escuadras separadas del isotipo */
+  .reticle-box { position: absolute; inset: -16%; pointer-events: none; }
+  .reticle-box > i { position: absolute; width: 13px; height: 13px; border: 0 solid currentColor; }
+  .reticle-box > i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+  .reticle-box > i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+  .reticle-box > i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+  .reticle-box > i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+
+  /* Plomada: filete discontinuo rematado por una marca */
+  .plumb {
+    background-image: linear-gradient(
+      var(--accent-ink) 0 4px,
+      transparent 4px 10px
+    );
+    background-size: 1px 10px;
+    background-repeat: repeat-y;
+    opacity: 0.5;
+  }
+  .plumb::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    width: 5px;
+    height: 5px;
+    background: var(--accent-ink);
+  }
+
+  /* Teletipo de fases: seis renglones, cinco paradas y vuelta al principio */
+  .ticker { height: 1.3rem; overflow: hidden; }
+  .ticker > ul { animation: ticker-step 15s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  .ticker > ul > li { height: 1.3rem; display: flex; align-items: center; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker > ul { animation: none !important; }
+  }
+
+  /* ============================================================
+     INDICADOR DE CARGA
+     Un armazón que gira, cuatro cruces que laten en cascada y un filete que
+     barre de ida y vuelta. Todo con transform y opacity.
+     ============================================================ */
+
+  .loader-mark { position: relative; width: 74px; height: 74px; }
+
+  .loader-mark .loader-cube {
+    position: absolute;
+    inset: 12px;
+    animation: wire-turn 3.6s linear infinite;
+  }
+
+  /* En el indicador el armazón se ve, no se insinúa */
+  .loader-cube > span { border-color: color-mix(in srgb, var(--accent-ink) 42%, transparent); }
+  .loader-cube .wire-cube--inner > span { border-color: var(--accent-ink); }
+
+  .loader-tick { position: absolute; width: 9px; height: 9px; color: var(--accent-ink); }
+  .loader-tick::before,
+  .loader-tick::after { content: ""; position: absolute; background: currentColor; }
+  .loader-tick::before { left: 0; top: 4px; width: 9px; height: 1px; }
+  .loader-tick::after  { top: 0; left: 4px; width: 1px; height: 9px; }
+  .loader-tick { animation: var(--animate-load-tick); }
+
+  .loader-rail { position: relative; width: 132px; height: 1px; background: var(--hair); overflow: hidden; }
+  .loader-rail > span {
+    position: absolute;
+    inset: 0;
+    background: var(--accent-ink);
+    animation: var(--animate-load-sweep);
+  }
+
+  /* ============================================================
+     BISEL CON FILETE — el corte de esquina de aaurex, con borde visible
+
+     `clip-path` recorta el fondo pero se lleva por delante el borde, así que
+     el contorno se dibuja aparte: cuatro aristas de 1px y una diagonal
+     girada 45°. Funciona a cualquier tamaño y no usa ningún degradado.
+     ============================================================ */
+
+  .cut {
+    --cut: 26px;
+    position: relative;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+  }
+
+  /* El contorno vive fuera del recorte, en un hermano sin clip */
+  .cut-line { position: absolute; inset: 0; pointer-events: none; }
+  .cut-line > i {
+    position: absolute;
+    background: var(--panel-bd);
+    display: block;
+  }
+  .cut-line > i:nth-child(1) { top: 0; left: 0; right: 0; height: 1px; }
+  .cut-line > i:nth-child(2) { top: 0; right: 0; bottom: 0; width: 1px; }
+  .cut-line > i:nth-child(3) { bottom: 0; left: var(--cut); right: 0; height: 1px; }
+  .cut-line > i:nth-child(4) { top: 0; left: 0; bottom: var(--cut); width: 1px; }
+  .cut-line > i:nth-child(5) {
+    bottom: calc(var(--cut) / 2);
+    left: calc(var(--cut) / 2 - (var(--cut) * 1.4142 / 2));
+    width: calc(var(--cut) * 1.4142);
+    height: 1px;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+  /* Variante de acento para las piezas destacadas */
+  .cut-line--accent > i { background: var(--accent-ink); }
+
+  /* ============================================================
+     CARRUSEL CILÍNDRICO — 3D real con una sola transform animada
+     ============================================================ */
+
+  .tech-stage {
+    position: relative;
+    height: clamp(150px, 16vw, 210px);
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+  }
+
+  .tech-ring {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 132px;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: var(--animate-ring-spin);
+  }
+
+  .tech-stage:hover .tech-ring { animation-play-state: paused; }
+
+  .tech-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    backface-visibility: hidden;
+    transform: rotateY(calc(var(--i) * (360deg / var(--n)))) translateZ(var(--ring-r));
+  }
+
+  /* Los ejes del cilindro se insinúan con dos filetes, no con sombras */
+  .tech-stage::before,
+  .tech-stage::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--hair);
+    pointer-events: none;
+  }
+  .tech-stage::before { left: 22%; }
+  .tech-stage::after  { right: 22%; }
+
+  /* ============================================================
+     PARALAJE DE ESCENA
+     Las capas se separan en Z según la posición del puntero, que publica
+     `Crosshair` en --px / --py. Solo transform: lo resuelve el compositor.
+     ============================================================ */
+
+  .par { transition: transform 0.7s var(--ease-expo); will-change: transform; }
+  .par-1 { transform: translate3d(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -8px), 0); }
+  .par-2 { transform: translate3d(calc(var(--px, 0) * -20px), calc(var(--py, 0) * -14px), 0); }
+  .par-3 { transform: translate3d(calc(var(--px, 0) * 16px), calc(var(--py, 0) * 12px), 0); }
+
+  @media (hover: none), (pointer: coarse) {
+    .par-1, .par-2, .par-3 { transform: none; }
+  }
+
+  /* ============================================================
+     OBJETO DE ALAMBRE — volumen 3D construido solo con filetes
+     ============================================================ */
+
+  .wire-scene {
+    perspective: 900px;
+    perspective-origin: 50% 50%;
+    pointer-events: none;
+  }
+
+  .wire-cube {
+    position: relative;
+    width: var(--wire-size, 220px);
+    height: var(--wire-size, 220px);
+    transform-style: preserve-3d;
+    animation: wire-turn 26s linear infinite;
+  }
+
+  .wire-cube > span {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--hair);
+  }
+
+  .wire-cube > span:nth-child(1) { transform: translateZ(calc(var(--wire-size, 220px) / 2)); }
+  .wire-cube > span:nth-child(2) { transform: rotateY(180deg) translateZ(calc(var(--wire-size, 220px) / 2)); }
+  .wire-cube > span:nth-child(3) { transform: rotateY(90deg) translateZ(calc(var(--wire-size, 220px) / 2)); }
+  .wire-cube > span:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--wire-size, 220px) / 2)); }
+  .wire-cube > span:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--wire-size, 220px) / 2)); }
+  .wire-cube > span:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--wire-size, 220px) / 2)); }
+
+  /* Un segundo armazón girado 45° da la lectura de instrumento */
+  .wire-cube--inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: calc(var(--wire-size, 220px) / -2) 0 0 calc(var(--wire-size, 220px) / -2);
+    animation-duration: 34s;
+    animation-direction: reverse;
+  }
+  .wire-cube--inner > span { border-color: color-mix(in srgb, var(--accent-ink) 35%, transparent); }
+
+  @keyframes wire-turn {
+    from { transform: rotateX(-22deg) rotateY(0deg); }
+    to   { transform: rotateX(-22deg) rotateY(360deg); }
+  }
+
+  /* ============================================================
+     PROFUNDIDAD 3D — inclinación ligera siguiendo el puntero.
+     Solo se activa en punteros finos; una sola transform por tarjeta.
+     ============================================================ */
+
+  .tilt-scene { perspective: 1100px; }
+
+  .tilt {
+    transform: perspective(1100px)
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(0, var(--tilt-lift, 0px), 0);
+    transition: transform 0.5s var(--ease-expo);
+    transform-style: preserve-3d;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .tilt { transform: none; }
+  }
+
+  /* ============================================================
+     BOTONES
+     ============================================================ */
+
+  .btn {
+    --btn-px: 1.55rem;
+    --btn-py: 0.92rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: var(--btn-py) var(--btn-px);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      background-color 0.35s var(--ease-expo),
+      color 0.35s var(--ease-expo),
+      border-color 0.35s var(--ease-expo),
+      box-shadow 0.45s var(--ease-expo),
+      transform 0.35s var(--ease-expo);
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      12px 100%,
+      0 calc(100% - 12px)
+    );
+  }
+
+  .btn:active { transform: translate3d(0, 1px, 0); }
+
+  /* Línea de arrastre: un filete corto que sale del botón, como en Targo */
+  .btn-trail { position: relative; }
+  .btn-trail::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 22px;
+    height: 1px;
+    background: var(--accent-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s var(--ease-expo);
+  }
+  .btn-trail:hover::after { transform: scaleX(1); }
+
+  /* Estrella de cuatro puntas: el glifo de acción de aaurex */
+  .glyph-star {
+    font-size: 1em;
+    line-height: 1;
+    transition: transform 0.5s var(--ease-expo);
+  }
+  .group:hover .glyph-star { transform: rotate(90deg); }
+
+  .btn-sm { --btn-px: 1.1rem; --btn-py: 0.68rem; font-size: 0.72rem; }
+  .btn-lg { --btn-px: 2rem; --btn-py: 1.1rem; font-size: 0.86rem; }
+  .btn-block { width: 100%; }
+
+  /* Primario: relleno de marca */
+  .btn-primary {
+    background: var(--accent-bg);
+    color: var(--accent-on);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  }
+  .btn-primary:hover {
+    background: var(--color-tertiary);
+    color: #04101f;
+    box-shadow: inset 0 0 0 1px rgba(4, 16, 31, 0.22);
+  }
+
+  /* Secundario: filete de 1px */
+  .btn-outline {
+    background: transparent;
+    color: var(--text-1);
+    box-shadow: inset 0 0 0 1px var(--panel-bd-strong);
+  }
+  .btn-outline:hover {
+    color: var(--accent-ink);
+    box-shadow: inset 0 0 0 1px var(--accent-ink);
+  }
+
+  /* Sólido oscuro (sobre fondos claros) */
+  .btn-ink {
+    background: var(--color-ink);
+    color: #FFFFFF;
+  }
+  .btn-ink:hover { background: var(--color-secondary); }
+  .dark .btn-ink { background: #FFFFFF; color: var(--color-ink); }
+  .dark .btn-ink:hover { background: var(--color-tertiary); }
+
+  /* Reflejo diagonal al pasar el cursor */
+  .btn-primary::after,
+  .btn-ink::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.22);
+    transform: translate3d(-160%, 0, 0);
+    transition: transform 0.75s var(--ease-expo);
+    pointer-events: none;
+  }
+  .btn-primary:hover::after,
+  .btn-ink:hover::after { transform: translate3d(420%, 0, 0); }
+
+  /* Enlace con flecha */
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    transition: color 0.3s var(--ease-expo), gap 0.35s var(--ease-expo);
+  }
+  .arrow-link:hover { gap: 1rem; }
+
+  /* ============================================================
+     CHIPS / ETIQUETAS
+     ============================================================ */
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.32rem 0.62rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--text-2);
+    border: 1px solid var(--panel-bd);
+    background: var(--panel-bg-2);
+    transition: color 0.3s var(--ease-expo), border-color 0.3s var(--ease-expo);
+  }
+
+  .chip-accent {
+    color: var(--accent-on);
+    background: var(--accent-bg);
+    border-color: var(--accent-bg);
+  }
+
+  /* ============================================================
+     FORMULARIOS
+     ============================================================ */
+
+  .field {
+    width: 100%;
+    padding: 0.95rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-1);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-bd);
+    transition: border-color 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo), background-color 0.3s var(--ease-expo);
+  }
+  .field::placeholder { color: var(--text-3); }
+  .field:focus {
+    outline: none;
+    border-color: var(--accent-ink);
+    box-shadow: inset 0 0 0 1px var(--accent-ink);
+  }
+
+  .field-icon { padding-left: 2.75rem; }
+
+  .field-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+
+  /* ============================================================
+     REVELADO AL SCROLL (solo opacity/transform → compositor)
+     ============================================================ */
+
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition:
+      opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms),
+      transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms);
+  }
+  .reveal[data-dir="left"]  { transform: translate3d(-26px, 0, 0); }
+  .reveal[data-dir="right"] { transform: translate3d(26px, 0, 0); }
+  .reveal[data-dir="scale"] { transform: scale(0.94); }
+  .reveal[data-dir="none"]  { transform: none; }
+  .reveal[data-dir="depth"] { transform: perspective(1200px) translate3d(0, 30px, -70px) rotateX(7deg); }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  .reveal[data-dir="depth"].is-in { transform: perspective(1200px) translate3d(0, 0, 0) rotateX(0deg); }
+
+  /* Barrido de las líneas de la retícula del hero */
+  .wipe-y { transform: scaleY(0); transform-origin: top;  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms); }
+  .wipe-x { transform: scaleX(0); transform-origin: left; transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms); }
+  .is-in .wipe-y { transform: scaleY(1); }
+  .is-in .wipe-x { transform: scaleX(1); }
+
+  /* Máscara de texto que sube línea a línea */
+  .line-mask { display: block; overflow: hidden; }
+  .line-mask > span {
+    display: block;
+    transform: translate3d(0, 110%, 0);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms);
+  }
+  .is-in .line-mask > span,
+  .line-mask.is-in > span { transform: translate3d(0, 0, 0); }
+
+  /* ============================================================
+     INTERACCIÓN
+     ============================================================ */
+
+  /* Subrayado que crece desde la izquierda */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+
+  /* Esquinas en L que se dibujan al pasar el cursor */
+  .corner-hover { position: relative; }
+  .corner-hover::before,
+  .corner-hover::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-color: var(--tick);
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .corner-hover::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; transform: translate3d(7px, 7px, 0); }
+  .corner-hover::after  { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; transform: translate3d(-7px, -7px, 0); }
+  .corner-hover:hover::before,
+  .corner-hover:hover::after,
+  .corner-hover:focus-visible::before,
+  .corner-hover:focus-visible::after { opacity: 1; transform: translate3d(0, 0, 0); }
+
+  /* Desplazamiento de la flecha dentro de un grupo con hover */
+  .group:hover .arrow-shift { transform: translate3d(4px, 0, 0); }
+  .arrow-shift { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* Zoom lento de imagen dentro de un marco */
+  .media-frame { overflow: hidden; position: relative; }
+  .media-frame img {
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+    will-change: transform;
+  }
+  .group:hover .media-frame img,
+  .media-frame:hover img { transform: scale(1.045); }
+
+  /* Marquesina de tecnologías: se pausa al pasar el cursor */
+  .marquee:hover .animate-scroll { animation-play-state: paused; }
+
+  /* Scrollbar fina (nav alfabético del Atlas) */
+  .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(37, 198, 253, 0.4); border-radius: 2px; }
+
+}
+
+/* Foco visible coherente en todo el sitio */
+:where(a, button, [tabindex], input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-tertiary);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   ACCESIBILIDAD — movimiento reducido
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-scroll {
-    animation-play-state: paused !important;
+  .animate-scroll { animation-play-state: paused !important; }
+  .animate-fade-in { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .wipe-y, .wipe-x { transform: none !important; transition: none !important; }
+  .line-mask > span { transform: none !important; transition: none !important; }
+  .tilt { transform: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-
-  .animate-fade-in {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* Custom scrollbar for Atlas alphabet nav */
-.custom-scrollbar::-webkit-scrollbar {
-  height: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 2px;
 }

@@ -1,56 +1,87 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import SectionHeader from "../ui/section-header";
+import { Container, Reveal, SectionHeader } from "../ui";
 import { serviceShowcase } from "../utils/services";
 
-
-
+/**
+ * Servicios: índice editorial en filas, no una rejilla de tarjetas iguales.
+ *
+ * Cada fila es un renglón de catálogo — número, nombre en versalitas, una línea
+ * de descripción y la flecha — con una barra de acento que crece desde el
+ * margen al pasar el cursor.
+ */
 export default function Services() {
     return (
-        <section className="flex flex-col py-20" id="services">
-            <div className="mb-12 flex flex-col items-start gap-6 lg:flex-row lg:gap-12">
-                <div className="w-full lg:w-1/2">
-                    <SectionHeader
-                        label="NUESTROS SERVICIOS"
-                        title="Soluciones digitales a la medida de tu negocio"
-                    />
-                </div>
-                <div className="w-full lg:mt-8 lg:w-1/2">
-                    <p className="w-full text-left text-lg leading-relaxed text-t-secondary lg:w-4/5">
-                        Combinamos estrategia, tecnología y creatividad para desarrollar soluciones que generan impacto real.
-                    </p>
-                </div>
-            </div>
-
-            <div className="mx-auto flex w-full max-w-[1540px] flex-wrap justify-center gap-x-20 gap-y-16 pt-8 xl:justify-between xl:gap-x-10">
-                {serviceShowcase.map((item) => (
-                    <Link
-                        key={item.title}
-                        to={item.to}
-                        className="group block w-[210px] rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-8"
-                    >
-                        <Icon
-                            icon={item.icon}
-                            className="mb-7 h-16 w-16 text-black transition-[opacity,transform] duration-200 ease-out group-hover:-translate-y-0.5 group-hover:opacity-75 group-focus-visible:-translate-y-0.5 group-focus-visible:opacity-75 motion-reduce:transform-none motion-reduce:transition-none"
-                            aria-hidden="true"
+        <section className="w-full py-[var(--section-py)] bg-canvas" id="services">
+            <Container size="wide">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+                    <div className="lg:col-span-8">
+                        <SectionHeader
+                            label="Nuestros servicios"
+                            index="01"
+                            title="Soluciones digitales a la medida de tu negocio"
                         />
-                        <h3 className="text-xl font-bold leading-snug text-black">
-                            {item.title}
-                        </h3>
-                        <span className="mt-3 block h-px w-12 origin-left scale-x-0 bg-black transition-transform duration-200 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none" />
-                        <p className="mt-4 text-base leading-relaxed text-t-secondary">
-                            {item.text}
+                    </div>
+                    <Reveal delay={120} className="lg:col-span-4 lg:pb-2">
+                        <p className="copy max-w-[42ch]">
+                            Combinamos estrategia, tecnología y creatividad para desarrollar soluciones que
+                            generan impacto real en un entorno digital exigente.
                         </p>
-                    </Link>
-                ))}
-            </div>
+                    </Reveal>
+                </div>
 
-            <div className="mt-16 flex justify-center">
-                <Link to="/servicios" className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-6 py-3 font-medium text-gray-900 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    Ver todos los servicios
-                    <Icon icon="solar:arrow-right-linear" className="h-5 w-5" />
-                </Link>
-            </div>
+                <div className="mt-16">
+                    {serviceShowcase.map((item, index) => (
+                        <Reveal key={item.title} delay={index * 60} dir="none">
+                            <Link
+                                to={item.to}
+                                className="row group grid-cols-[auto_1fr] md:grid-cols-[3.5rem_minmax(0,1fr)_minmax(0,1.1fr)_auto] gap-x-6 gap-y-2 py-7 md:py-8"
+                            >
+                                <span className="index-num micro-label t-3 self-center transition-colors duration-500 group-hover:t-accent">
+                                    {String(index + 1).padStart(2, "0")}
+                                </span>
+
+                                <span className="flex items-center gap-4 min-w-0">
+                                    <Icon
+                                        icon={item.icon}
+                                        className="w-5 h-5 shrink-0 t-3 transition-colors duration-500 group-hover:t-accent"
+                                        aria-hidden="true"
+                                    />
+                                    <span className="display-caps text-[clamp(1.05rem,1.5vw,1.6rem)] t-1 transition-colors duration-500 group-hover:t-accent">
+                                        {item.title}
+                                    </span>
+                                </span>
+
+                                <span className="copy text-[0.9rem] col-span-2 md:col-span-1 md:self-center pl-9 md:pl-0">
+                                    {item.text}
+                                </span>
+
+                                <span className="hidden md:grid place-items-center w-10 h-10 border border-transparent t-3 self-center transition-all duration-500 group-hover:bd group-hover:t-accent">
+                                    <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                </span>
+                            </Link>
+                        </Reveal>
+                    ))}
+
+                    {/* Último renglón: acceso al catálogo completo */}
+                    <Reveal delay={serviceShowcase.length * 60} dir="none">
+                        <Link
+                            to="/servicios"
+                            className="row group grid-cols-[auto_1fr] md:grid-cols-[3.5rem_minmax(0,1fr)_auto] gap-x-6 py-7 md:py-8"
+                        >
+                            <span className="index-num micro-label t-accent self-center">
+                                {String(serviceShowcase.length + 1).padStart(2, "0")}
+                            </span>
+                            <span className="display-caps text-[clamp(1.05rem,1.5vw,1.6rem)] t-accent self-center">
+                                Ver todos los servicios
+                            </span>
+                            <span className="hidden md:grid place-items-center w-10 h-10 border bd t-accent self-center">
+                                <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                            </span>
+                        </Link>
+                    </Reveal>
+                </div>
+            </Container>
         </section>
     );
 }

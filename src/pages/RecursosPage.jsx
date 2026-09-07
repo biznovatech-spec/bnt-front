@@ -1,16 +1,22 @@
 import { useSeo } from "../hooks/useSeo";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import Container from "../ui/container";
-import Breadcrumb from "../ui/breadcrumb";
-import SectionHeader from "../ui/section-header";
-import CTASection from "../ui/cta-section";
-import FAQ from "../ui/faq";
+import { Breadcrumb, CTASection, Container, CutPanel, Eyebrow, FAQ, PendingImagePlaceholder, Reveal, SectionHeader } from "../ui";
 import { getGeneratedImage } from "../data/generatedImages";
 import { getPendingImage } from "../data/pendingImages";
-import PendingImagePlaceholder from "../ui/pending-image-placeholder";
 import { articles } from "../data/resources";
 import { faqs, faqCategories } from "../data/faqs";
+
+const ATLAS_PREVIEW = [
+    "react",
+    "nodedotjs",
+    "flutter",
+    "postgresql",
+    "figma",
+    "docker",
+    "tailwindcss",
+    "python",
+];
 
 export default function RecursosPage() {
     useSeo({
@@ -22,120 +28,173 @@ export default function RecursosPage() {
     const pendingImage = !heroImage ? getPendingImage("resources-editorial") : null;
 
     return (
-        <div className="w-full flex flex-col gap-16 lg:gap-24">
+        <div className="w-full flex flex-col">
             <Container size="wide">
                 <Breadcrumb items={[{ label: "Recursos" }]} />
-                <section className="flex flex-col gap-8 pt-4 pb-8">
-                    <div className="flex flex-col lg:flex-row gap-12 items-center">
-                        <div className="lg:w-1/2">
+            </Container>
+
+            {/* Portada */}
+            <section className="w-full pt-10 pb-[var(--section-py)]">
+                <Container size="wide">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                        <div className="lg:col-span-6">
                             <SectionHeader
-                                label="RECURSOS"
+                                label="Recursos"
                                 title="Explora nuestras ideas y herramientas"
                                 description="Un espacio donde documentamos aprendizajes, compartimos decisiones técnicas y respondemos a las preguntas más frecuentes sobre nuestro trabajo."
                                 as="h1"
                             />
                         </div>
-                        <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                            {heroImage ? (
-                                <div className=" overflow-hidden  flex items-center justify-center max-w-lg w-full">
-                                    <img src={heroImage.filename} alt={heroImage.alt} className="w-full object-contain animate-fade-in" loading="eager" />
-                                </div>
-                            ) : pendingImage ? (
-                                <div className="max-w-lg w-full">
-                                    <PendingImagePlaceholder
-                                        id={pendingImage.id}
-                                        title={pendingImage.title}
-                                        concept={pendingImage.concept}
-                                        expectedFilename={pendingImage.expectedFilename}
-                                        recommendedRatio={pendingImage.recommendedRatio}
-                                        recommendedSize={`${pendingImage.recommendedWidth}×${pendingImage.recommendedHeight}`}
-                                        variant="hero"
-                                    />
-                                </div>
-                            ) : null}
-                        </div>
-                    </div>
-                </section>
-            </Container>
 
-            {/* Atlas tecnológico teaser */}
-            <section className="w-full">
-                <Container size="wide">
-                    <div className="bg-surface-dark rounded-3xl p-8 lg:p-12 flex flex-col lg:flex-row items-center gap-10">
-                        <div className="lg:w-1/2 flex flex-col gap-6">
-                            <span className="text-sm font-bold tracking-widest text-primary">ECOSISTEMA</span>
-                            <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight">Atlas tecnológico</h2>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Explora los lenguajes, frameworks, plataformas y herramientas que forman parte de las capacidades técnicas y creativas de Biznovatech.
-                            </p>
-                            <Link to="/recursos/tecnologias" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors w-fit mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                                Explorar Atlas
-                                <Icon icon="solar:arrow-right-linear" className="w-5 h-5" />
-                            </Link>
-                        </div>
-                        <div className="lg:w-1/2 grid grid-cols-4 gap-4 opacity-50 pointer-events-none">
-                            {['react', 'nodedotjs', 'flutter', 'postgresql', 'figma', 'docker', 'tailwindcss', 'python'].map(slug => (
-                                <div key={slug} className="aspect-square rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
-                                    <Icon icon={`simple-icons:${slug}`} className="w-8 h-8 text-white/50" />
-                                </div>
-                            ))}
-                        </div>
+                        <Reveal delay={160} dir="scale" className="lg:col-span-6">
+                            {heroImage ? (
+                                <CutPanel surface="plate" cut="34px" className="p-8 flex items-center justify-center">
+                                    <div
+                                        aria-hidden="true"
+                                        className="deco absolute inset-0 grid-hairline opacity-70"
+                                        style={{ "--cell": "48px" }}
+                                    />
+                                    <img
+                                        src={heroImage.filename}
+                                        alt={heroImage.alt}
+                                        className="relative w-full object-contain"
+                                        loading="eager"
+                                    />
+                                </CutPanel>
+                            ) : pendingImage ? (
+                                <PendingImagePlaceholder
+                                    id={pendingImage.id}
+                                    title={pendingImage.title}
+                                    concept={pendingImage.concept}
+                                    expectedFilename={pendingImage.expectedFilename}
+                                    recommendedRatio={pendingImage.recommendedRatio}
+                                    recommendedSize={`${pendingImage.recommendedWidth}×${pendingImage.recommendedHeight}`}
+                                    variant="hero"
+                                />
+                            ) : null}
+                        </Reveal>
                     </div>
+                </Container>
+            </section>
+
+            {/* Atlas tecnológico */}
+            <section className="w-full pb-[var(--section-py)]">
+                <Container size="wide">
+                    <Reveal dir="depth">
+                        <div className="relative overflow-hidden surface-strong">
+                            <div aria-hidden="true" className="deco absolute inset-0">
+                                <div
+                                    className="absolute inset-0 grid-hairline"
+                                    style={{ "--cell": "72px" }}
+                                />
+                            </div>
+
+                            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2">
+                                <div className="flex flex-col gap-6 p-10 lg:p-14">
+                                    <Eyebrow className="t-accent">Ecosistema</Eyebrow>
+                                    <h2 className="display-caps t-1">Atlas tecnológico</h2>
+                                    <p className="text-[var(--fs-lead)] leading-relaxed t-2 max-w-[52ch]">
+                                        Explora los lenguajes, frameworks, plataformas y herramientas que forman parte
+                                        de las capacidades técnicas y creativas de Biznovatech.
+                                    </p>
+                                    <Link to="/recursos/tecnologias" className="btn btn-primary group w-fit mt-2">
+                                        Explorar Atlas
+                                        <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                    </Link>
+                                </div>
+
+                                <div className="grid grid-cols-4 gap-px bg-hair border-l bd-hair">
+                                    {ATLAS_PREVIEW.map((slug) => (
+                                        <div
+                                            key={slug}
+                                            className="aspect-square bg-canvas grid place-items-center transition-colors duration-500 hover:bg-white/[0.04]"
+                                        >
+                                            <Icon
+                                                icon={`simple-icons:${slug}`}
+                                                className="w-7 h-7 t-3"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </Reveal>
                 </Container>
             </section>
 
             {/* Artículos */}
-            <section id="articulos" className="w-full bg-gray-50 py-16 border-y border-gray-100">
+            <section
+                id="articulos"
+                className="w-full py-[var(--section-py)] bg-canvas-2 border-y bd-hair"
+            >
                 <Container size="wide">
-                    <div className="flex flex-col gap-10">
-                        <SectionHeader label="ARTÍCULOS" title="Lecturas sobre estrategia y tecnología" />
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                            {articles.map(article => (
+                    <SectionHeader
+                        label="Artículos"
+                        index="01"
+                        title="Lecturas sobre estrategia y tecnología"
+                    />
+
+                    <div className="mt-14">
+                        {articles.map((article, i) => (
+                            <Reveal key={article.slug} delay={i * 55} dir="none">
                                 <Link
-                                    key={article.slug}
                                     to={`/recursos/${article.slug}`}
-                                    className="flex flex-col p-8 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-sm transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                                    className="row group grid-cols-1 md:grid-cols-[4rem_minmax(0,1.1fr)_minmax(0,1fr)_auto] gap-x-8 gap-y-3 py-9 md:py-11 items-start"
                                 >
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
-                                            {article.category}
+                                    <span aria-hidden="true" className="ghost-num text-[clamp(2rem,3.2vw,3rem)]">
+                                        {String(i + 1).padStart(2, "0")}
+                                    </span>
+
+                                    <span className="flex flex-col gap-3 min-w-0">
+                                        <span className="flex items-center gap-4">
+                                            <span className="micro-label t-accent">
+                                                {article.category}
+                                            </span>
+                                            <span aria-hidden="true" className="w-6 h-px bg-[var(--hair)]" />
+                                            <span className="micro-label t-3">
+                                                {article.readTime}
+                                            </span>
                                         </span>
-                                        <span className="text-xs text-t-secondary font-medium">{article.readTime}</span>
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors leading-snug">
-                                        {article.title}
-                                    </h3>
-                                    <p className="text-t-secondary leading-relaxed mb-8 flex-1">
-                                        {article.excerpt}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-primary text-sm font-semibold mt-auto">
-                                        Leer artículo
-                                        <Icon icon="solar:arrow-right-linear" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </div>
+                                        <h3 className="display-caps text-[clamp(1.1rem,1.7vw,1.7rem)] t-1 max-w-[22ch] transition-colors duration-500 group-hover:t-accent">
+                                            {article.title}
+                                        </h3>
+                                    </span>
+
+                                    <span className="copy text-[0.9rem] md:pt-1 max-w-[46ch]">{article.excerpt}</span>
+
+                                    <span className="hidden md:grid place-items-center w-10 h-10 border border-transparent t-3 transition-all duration-500 group-hover:bd group-hover:t-accent">
+                                        <Icon icon="lucide:arrow-right" className="w-4 h-4 arrow-shift" aria-hidden="true" />
+                                    </span>
                                 </Link>
-                            ))}
-                        </div>
+                            </Reveal>
+                        ))}
                     </div>
                 </Container>
             </section>
 
-            {/* FAQs */}
-            <section id="preguntas-frecuentes" className="w-full">
-                <Container size="standard">
-                    <div className="flex flex-col lg:flex-row gap-16">
-                        <div className="lg:w-1/3 flex flex-col gap-6">
-                            <SectionHeader label="FAQ" title="Preguntas frecuentes" />
-                            <p className="text-t-secondary leading-relaxed">
-                                Si no encuentras la respuesta que buscas, escríbenos y con gusto resolveremos tus dudas.
-                            </p>
+            {/* Preguntas frecuentes */}
+            <section id="preguntas-frecuentes" className="w-full py-[var(--section-py)]">
+                <Container size="wide">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+                        <div className="lg:col-span-4">
+                            <SectionHeader
+                                label="FAQ"
+                                index="02"
+                                title="Preguntas frecuentes"
+                                description="Si no encuentras la respuesta que buscas, escríbenos y con gusto resolveremos tus dudas."
+                            />
                         </div>
-                        <div className="lg:w-2/3 flex flex-col gap-12">
-                            {faqCategories.map(category => {
-                                const categoryFaqs = faqs.filter(f => f.category === category.id);
+
+                        <div className="lg:col-span-8 flex flex-col gap-12 lg:pt-7">
+                            {faqCategories.map((category) => {
+                                const categoryFaqs = faqs.filter((f) => f.category === category.id);
                                 if (categoryFaqs.length === 0) return null;
                                 return (
-                                    <div key={category.id} className="flex flex-col gap-6">
-                                        <h3 className="text-xl font-bold text-gray-900 border-b border-gray-100 pb-4">{category.name}</h3>
+                                    <div key={category.id} className="flex flex-col gap-2">
+                                        <h3 className="micro-label t-2 pb-4">
+                                            {category.name}
+                                        </h3>
                                         <FAQ items={categoryFaqs} />
                                     </div>
                                 );
@@ -145,14 +204,16 @@ export default function RecursosPage() {
                 </Container>
             </section>
 
-            <Container size="standard">
-                <CTASection
-                    title="¿Tienes un proyecto en mente?"
-                    description="Podemos aplicar estos recursos y experiencia para construir la solución que necesitas."
-                    buttonText="Cuéntanos tu idea"
-                    buttonTo="/contacto"
-                />
-            </Container>
+            <div className="pb-[var(--section-py)]">
+                <Container size="wide">
+                    <CTASection
+                        title="¿Tienes un proyecto en mente?"
+                        description="Podemos aplicar estos recursos y experiencia para construir la solución que necesitas."
+                        buttonText="Cuéntanos tu idea"
+                        buttonTo="/contacto"
+                    />
+                </Container>
+            </div>
         </div>
     );
 }

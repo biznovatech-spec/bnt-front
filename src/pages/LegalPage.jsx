@@ -1,7 +1,7 @@
 import { useSeo } from "../hooks/useSeo";
 import { Link } from "react-router-dom";
-import Container from "../ui/container";
-import Breadcrumb from "../ui/breadcrumb";
+import { Icon } from "@iconify/react";
+import { Breadcrumb, Container, Eyebrow, Reveal } from "../ui";
 import { company } from "../data/company";
 
 export default function LegalPage({ title, date = "Enero 2025" }) {
@@ -11,59 +11,120 @@ export default function LegalPage({ title, date = "Enero 2025" }) {
     });
 
     return (
-        <div className="w-full flex flex-col gap-12 pb-24">
+        <div className="w-full flex flex-col pb-[var(--section-py)]">
             <Container size="reading">
                 <Breadcrumb items={[{ label: title }]} />
-                <section className="pt-4">
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h1>
-                    <p className="text-sm font-medium text-t-secondary">Última actualización: {date}</p>
-                    
-                    <div className="mt-8 p-6 bg-blue-50 border border-blue-100 rounded-xl">
-                        <p className="text-blue-900 font-medium">
-                            Este es un documento informativo preliminar. Los términos formales definitivos se encuentran en proceso de revisión legal.
+
+                <header className="flex flex-col gap-5 pt-10 pb-8 border-b bd-hair">
+                    <Reveal dir="none">
+                        <Eyebrow tone="muted">Documento legal</Eyebrow>
+                    </Reveal>
+                    <Reveal delay={80}>
+                        <h1 className="display-caps t-1">{title}</h1>
+                    </Reveal>
+                    <Reveal delay={140}>
+                        <p className="micro-label t-2">
+                            Última actualización: {date}
+                        </p>
+                    </Reveal>
+                </header>
+
+                <Reveal delay={100} className="mt-10">
+                    <div className="flex items-start gap-4 p-6 border-l-2 bd-accent bg-2">
+                        <Icon
+                            icon="lucide:info"
+                            className="w-4 h-4 mt-1 t-accent shrink-0"
+                            aria-hidden="true"
+                        />
+                        <p className="text-[0.92rem] leading-relaxed t-1">
+                            Este es un documento informativo preliminar. Los términos formales definitivos se
+                            encuentran en proceso de revisión legal.
                         </p>
                     </div>
+                </Reveal>
 
-                    <article className="mt-12 flex flex-col gap-8 text-gray-700 leading-relaxed">
-                        <p>
-                            En Biznovatech ({company.legalName}) valoramos la confianza que depositas en nosotros. Esta sección está destinada a documentar nuestras políticas y términos de servicio de forma clara y transparente.
+                <article className="mt-14 flex flex-col gap-12">
+                    <Reveal>
+                        <p className="copy text-[1rem]">
+                            En Biznovatech ({company.legalName}) valoramos la confianza que depositas en nosotros.
+                            Esta sección está destinada a documentar nuestras políticas y términos de servicio de
+                            forma clara y transparente.
                         </p>
-                        
-                        <div className="flex flex-col gap-3">
-                            <h2 className="text-xl font-bold text-gray-900">1. Contacto para consultas</h2>
-                            <p>Si tienes alguna duda sobre nuestras políticas o el manejo de tu información, puedes comunicarte con nosotros a través de:</p>
-                            <ul className="list-disc pl-5 flex flex-col gap-2 mt-2">
-                                <li>Correo electrónico: <a href={`mailto:${company.contact.email}`} className="text-primary hover:underline">{company.contact.email}</a></li>
-                                <li>Teléfono: {company.contact.phone}</li>
-                                <li>Dirección: {company.location.full}</li>
-                            </ul>
-                        </div>
+                    </Reveal>
 
-                        <div className="flex flex-col gap-3">
-                            <h2 className="text-xl font-bold text-gray-900">2. Privacidad de la información</h2>
-                            <p>
-                                Toda la información recopilada a través de nuestros formularios de contacto, reuniones iniciales o durante el desarrollo de un proyecto, será tratada con estricta confidencialidad y utilizada únicamente para los fines acordados contigo.
-                            </p>
+                    <Reveal className="flex flex-col gap-4 pt-8 border-t bd-hair">
+                        <div className="flex items-baseline gap-4">
+                            <span className="index-num micro-label t-accent">01</span>
+                            <h2 className="display-sm t-1">Contacto para consultas</h2>
                         </div>
+                        <p className="copy text-[1rem]">
+                            Si tienes alguna duda sobre nuestras políticas o el manejo de tu información, puedes
+                            comunicarte con nosotros a través de:
+                        </p>
+                        <ul className="flex flex-col mt-1">
+                            <li className="flex items-center gap-4 py-3.5 border-t bd-hair">
+                                <span className="micro-label t-3 w-28 shrink-0">
+                                    Correo
+                                </span>
+                                <a
+                                    href={`mailto:${company.contact.email}`}
+                                    className="link-underline t-accent break-all"
+                                >
+                                    {company.contact.email}
+                                </a>
+                            </li>
+                            <li className="flex items-center gap-4 py-3.5 border-t bd-hair">
+                                <span className="micro-label t-3 w-28 shrink-0">
+                                    Teléfono
+                                </span>
+                                <span className="t-1">{company.contact.phone}</span>
+                            </li>
+                            <li className="flex items-center gap-4 py-3.5 border-y bd-hair">
+                                <span className="micro-label t-3 w-28 shrink-0">
+                                    Dirección
+                                </span>
+                                <span className="t-1">{company.location.full}</span>
+                            </li>
+                        </ul>
+                    </Reveal>
 
-                        <div className="flex flex-col gap-3">
-                            <h2 className="text-xl font-bold text-gray-900">3. Desarrollo de proyectos</h2>
-                            <p>
-                                Las condiciones específicas, alcances, plazos, garantías y propiedad intelectual de cada proyecto desarrollado por Biznovatech se establecerán detalladamente en el contrato o acuerdo de servicios correspondiente a dicho proyecto.
-                            </p>
+                    <Reveal className="flex flex-col gap-4 pt-8 border-t bd-hair">
+                        <div className="flex items-baseline gap-4">
+                            <span className="index-num micro-label t-accent">02</span>
+                            <h2 className="display-sm t-1">
+                                Privacidad de la información
+                            </h2>
                         </div>
-                    </article>
-                    
-                    <div className="mt-12 pt-8 border-t border-gray-100 flex gap-4">
-                        <Link to="/" className="text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">
-                            Volver al inicio
-                        </Link>
-                        <span className="text-gray-300">|</span>
-                        <Link to="/contacto" className="text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">
-                            Ir a contacto
-                        </Link>
-                    </div>
-                </section>
+                        <p className="copy text-[1rem]">
+                            Toda la información recopilada a través de nuestros formularios de contacto, reuniones
+                            iniciales o durante el desarrollo de un proyecto, será tratada con estricta
+                            confidencialidad y utilizada únicamente para los fines acordados contigo.
+                        </p>
+                    </Reveal>
+
+                    <Reveal className="flex flex-col gap-4 pt-8 border-t bd-hair">
+                        <div className="flex items-baseline gap-4">
+                            <span className="index-num micro-label t-accent">03</span>
+                            <h2 className="display-sm t-1">Desarrollo de proyectos</h2>
+                        </div>
+                        <p className="copy text-[1rem]">
+                            Las condiciones específicas, alcances, plazos, garantías y propiedad intelectual de cada
+                            proyecto desarrollado por Biznovatech se establecerán detalladamente en el contrato o
+                            acuerdo de servicios correspondiente a dicho proyecto.
+                        </p>
+                    </Reveal>
+                </article>
+
+                <div className="mt-14 pt-8 border-t bd-hair flex flex-wrap gap-8">
+                    <Link to="/" className="arrow-link">
+                        <span>Volver al inicio</span>
+                        <Icon icon="lucide:arrow-right" className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                    <Link to="/contacto" className="arrow-link">
+                        <span>Ir a contacto</span>
+                        <Icon icon="lucide:arrow-right" className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                </div>
             </Container>
         </div>
     );

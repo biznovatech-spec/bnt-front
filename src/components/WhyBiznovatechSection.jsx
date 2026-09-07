@@ -1,53 +1,52 @@
-import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
-import Container from "../ui/container";
+import { Container, Reveal, SectionHeader } from "../ui";
 import { whyValues } from "../data/hero";
 
-export default function WhyBiznovatechSection({ variants }) {
+/**
+ * Por qué elegirnos: manifiesto en renglones.
+ *
+ * Cada argumento ocupa una franja completa con su número a tamaño de titular
+ * a la izquierda. Sin tarjetas: la jerarquía la marcan el número, el filete y
+ * el aire. Al pasar el cursor, el contorno del número toma el acento.
+ */
+export default function WhyBiznovatechSection() {
     return (
-        <motion.section 
-            variants={variants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="w-full py-20 border-t border-gray-100"
+        <section
+            className="relative w-full py-[var(--section-py)] bg-canvas overflow-hidden"
+            id="why-biznovatech"
         >
-            <Container size="wide">
-                <div className="flex flex-col gap-16">
-                    <div className="max-w-2xl">
-                        <span className="text-xs font-bold tracking-[0.2em] text-primary uppercase">Por qué Biznovatech</span>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mt-4">
-                            Un proyecto no empieza con código.{" "}
-                            <span className="text-t-secondary font-normal">Empieza entendiendo lo que necesitas resolver.</span>
-                        </h2>
-                    </div>
+            <Container size="wide" className="relative z-10">
+                <SectionHeader
+                    label="Por qué elegirnos"
+                    index="05"
+                    title="El partner tecnológico que tu empresa necesita para escalar"
+                />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                        {whyValues.map((item, index) => (
-                            <motion.div 
-                                key={item.step} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.5 }}
-                                className="flex gap-5 group"
-                            >
-                                <div className="flex flex-col items-center shrink-0">
-                                    <div className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center group-hover:border-primary/40 transition-colors">
-                                        <Icon icon={item.icon} className="w-5 h-5 text-primary" />
-                                    </div>
-                                    <div className="w-px flex-1 bg-gray-200 mt-3 hidden md:block"></div>
-                                </div>
-                                <div className="flex flex-col gap-2 pb-2">
-                                    <span className="text-xs font-bold text-primary tracking-wider">{item.step}</span>
-                                    <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                                    <p className="text-sm text-t-secondary leading-relaxed">{item.text}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                <div className="mt-16">
+                    {whyValues.map((item, index) => (
+                        <Reveal key={item.step} delay={index * 70} dir="none">
+                            <article className="row group grid-cols-1 md:grid-cols-[minmax(0,7rem)_minmax(0,1fr)_minmax(0,1.3fr)_auto] gap-x-8 gap-y-4 py-10 md:py-14 items-start">
+                                <span
+                                    aria-hidden="true"
+                                    className="ghost-num text-[clamp(2.8rem,6vw,5.5rem)]"
+                                >
+                                    {item.step}
+                                </span>
+
+                                <h3 className="display-caps text-[clamp(1.2rem,2vw,2rem)] t-1 max-w-[14ch] transition-colors duration-500 group-hover:t-accent">
+                                    {item.title}
+                                </h3>
+
+                                <p className="copy max-w-[52ch] md:pt-1">{item.text}</p>
+
+                                <span className="hidden md:grid place-items-center w-12 h-12 border bd t-3 transition-colors duration-500 group-hover:bd-accent group-hover:t-accent">
+                                    <Icon icon={item.icon} className="w-5 h-5" aria-hidden="true" />
+                                </span>
+                            </article>
+                        </Reveal>
+                    ))}
                 </div>
             </Container>
-        </motion.section>
+        </section>
     );
 }
