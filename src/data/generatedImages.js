@@ -4,7 +4,7 @@
  */
 export const generatedImages = [{
         id: "services-editorial",
-        filename: "/images/generated/services-editorial.png",
+        filename: "/images/generated/services-editorial.webp",
         route: "/servicios",
         section: "hero",
         alt: "Composición isométrica 3D de análisis, diseño y desarrollo conectados",
@@ -13,7 +13,7 @@ export const generatedImages = [{
     },
     {
         id: "solutions-editorial",
-        filename: "/images/generated/solutions-editorial.png",
+        filename: "/images/generated/solutions-editorial.webp",
         route: "/soluciones",
         section: "hero",
         alt: "Mapa visual de conexiones ordenando procesos dispersos",
@@ -22,7 +22,7 @@ export const generatedImages = [{
     },
     {
         id: "about-editorial",
-        filename: "/images/generated/about-editorial.png",
+        filename: "/images/generated/about-editorial.webp",
         route: "/nosotros",
         section: "hero",
         alt: "Concepto abstracto de equipo multidisciplinario unificado",
@@ -31,7 +31,7 @@ export const generatedImages = [{
     },
     {
         id: "contact-editorial",
-        filename: "/images/generated/contact-editorial.png",
+        filename: "/images/generated/contact-editorial.webp",
         route: "/contacto",
         section: "hero",
         alt: "Concepto abstracto de equipo multidisciplinario unificado",
@@ -40,7 +40,7 @@ export const generatedImages = [{
     },
     {
         id: "resources-editorial",
-        filename: "/images/generated/resources-editorial.png",
+        filename: "/images/generated/resources-editorial.webp",
         route: "/recursos",
         section: "hero",
         alt: "Concepto abstracto de equipo multidisciplinario unificado",

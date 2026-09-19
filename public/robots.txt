@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://biznovatech.com/sitemap.xml
+Sitemap: https://m3biznovatech.com/sitemap.xml

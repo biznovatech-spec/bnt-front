@@ -244,6 +244,15 @@ function Shell({ color }) {
    Encuadres
    ------------------------------------------------------------------ */
 
+/**
+ * ENCUADRES — el único sitio donde se ajusta la escena.
+ *
+ *   camera.position[2]  aléjala para que el núcleo ocupe menos (32 → 40)
+ *   camera.fov          ángulo de visión; menos grados = más "teleobjetivo"
+ *   terrain.position[1] altura del terreno respecto al núcleo
+ *   terrain.near/far    a qué distancia empieza y acaba de apagarse la malla
+ *   core                tamaño del punto (no del radio de la esfera)
+ */
 const FRAMING = {
     wide: {
         camera: { position: [0, 0, 20], fov: 42 },

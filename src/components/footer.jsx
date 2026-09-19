@@ -169,18 +169,25 @@ export default function Footer() {
                     <p className="micro-label t-2/70">
                         © {new Date().getFullYear()} {company.legalName}. Todos los derechos reservados.
                     </p>
-                    <div className="flex flex-wrap gap-x-8 gap-y-2">
+                    <div className="flex flex-wrap gap-x-8 gap-y-1">
                         <Link
                             to="/privacidad"
-                            className="micro-label t-2/70 hover:t-accent transition-colors"
+                            className="micro-label t-2/70 hover:t-accent transition-colors inline-flex items-center min-h-6"
                         >
                             Política de privacidad
                         </Link>
                         <Link
                             to="/terminos-y-condiciones"
-                            className="micro-label t-2/70 hover:t-accent transition-colors"
+                            className="micro-label t-2/70 hover:t-accent transition-colors inline-flex items-center min-h-6"
                         >
                             Términos y condiciones
+                        </Link>
+                        <Link
+                            to="/libro-de-reclamaciones"
+                            className="micro-label t-2/70 hover:t-accent transition-colors inline-flex items-center gap-2 min-h-6"
+                        >
+                            <Icon icon="lucide:book-open-text" className="w-3.5 h-3.5" aria-hidden="true" />
+                            Libro de reclamaciones
                         </Link>
                     </div>
                 </div>

@@ -53,7 +53,8 @@ export const navigationData = [
         submenu: [
             { label: "Conoce Biznovatech", href: "/nosotros", type: "route" },
             { label: "Quiénes somos", href: "/nosotros#quienes-somos", type: "hash" },
-            { label: "Propósito y valores", href: "/nosotros#proposito-valores", type: "hash" },
+            { label: "Propósito y misión", href: "/nosotros#proposito", type: "hash" },
+            { label: "Valores", href: "/nosotros#valores", type: "hash" },
             { label: "Nuestro equipo", href: "/nosotros#equipo", type: "hash" },
             { label: "Metodología", href: "/nosotros#metodologia", type: "hash" }
         ]

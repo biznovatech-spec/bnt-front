@@ -19,7 +19,7 @@ export function HeaderProvider({ children }) {
         }
         return false;
     });
-
+ 
     useEffect(() => {
         const frame = requestAnimationFrame(() => {
             setIsHeaderReady(true);

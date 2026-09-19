@@ -117,9 +117,9 @@ export const megaMenus = {
                 colSpan: 4,
                 items: [
                     { label: "Quiénes somos", route: "/nosotros#quienes-somos", icon: "lucide:building-2" },
-                    { label: "Propósito", route: "/nosotros#proposito-valores", icon: "lucide:target" },
-                    { label: "Misión y visión", route: "/nosotros#proposito-valores", icon: "lucide:badge-info" },
-                    { label: "Valores", route: "/nosotros#proposito-valores", icon: "lucide:heart-handshake" }
+                    { label: "Propósito", route: "/nosotros#proposito", icon: "lucide:target" },
+                    { label: "Misión y visión", route: "/nosotros#mision-vision", icon: "lucide:badge-info" },
+                    { label: "Valores", route: "/nosotros#valores", icon: "lucide:heart-handshake" }
                 ]
             },
             {
@@ -129,7 +129,7 @@ export const megaMenus = {
                 items: [
                     { label: "Equipo", route: "/nosotros#equipo", icon: "lucide:users" },
                     { label: "Metodología", route: "/nosotros#metodologia", icon: "lucide:workflow" },
-                    { label: "Forma de colaborar", route: "/nosotros#metodologia", icon: "lucide:handshake" }
+                    { label: "Forma de colaborar", route: "/nosotros#colaborar", icon: "lucide:handshake" }
                 ],
                 bottomCta: {
                     title: "¿Quieres saber más?",

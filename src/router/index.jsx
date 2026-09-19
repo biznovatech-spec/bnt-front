@@ -21,6 +21,7 @@ const TecnologiasPage = lazy(() => import("../pages/TecnologiasPage"));
 const ArticlePage = lazy(() => import("../pages/ArticlePage"));
 const ContactoPage = lazy(() => import("../pages/ContactoPage"));
 const LegalPage = lazy(() => import("../pages/LegalPage"));
+const ReclamacionesPage = lazy(() => import("../pages/ReclamacionesPage"));
 
 const withSuspense = (Component, props = {}) => (
     <Suspense fallback={<PageLoader />}>
@@ -28,7 +29,8 @@ const withSuspense = (Component, props = {}) => (
     </Suspense>
 );
 
-export const router = createBrowserRouter([
+// Esto sirve para compartir el árbol de rutas con los tests de enlaces
+export const routes = [
     {
         path: "/",
         element: <MainLayout />,
@@ -95,15 +97,15 @@ export const router = createBrowserRouter([
             // LEGALES
             {
                 path: "privacidad",
-                element: withSuspense(LegalPage, { title: "Política de Privacidad" }),
+                element: withSuspense(LegalPage, { doc: "privacidad" }),
             },
             {
                 path: "terminos-y-condiciones",
-                element: withSuspense(LegalPage, { title: "Términos y Condiciones" }),
+                element: withSuspense(LegalPage, { doc: "terminos" }),
             },
             {
                 path: "libro-de-reclamaciones",
-                element: withSuspense(LegalPage, { title: "Libro de Reclamaciones" }),
+                element: withSuspense(ReclamacionesPage),
             },
             // 404 CATCH ALL FOR INTERNAL ROUTES
             {
@@ -112,4 +114,6 @@ export const router = createBrowserRouter([
             }
         ],
     },
-]);
+];
+
+export const router = createBrowserRouter(routes);

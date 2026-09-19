@@ -1,6 +1,9 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { CornerBrackets } from "../ui";
 import { company } from "../data/company";
-import HeroScene from "./hero-scene";
+
+// three.js va en su propio chunk para no frenar el primer pintado
+const HeroScene = lazy(() => import("./hero-scene"));
 
 /**
  * PLATÓ DE LA PORTADA — la misma pieza en escritorio y en móvil.
@@ -18,6 +21,29 @@ const PHASES = ["Análisis", "Estrategia", "Desarrollo", "Implementación", "Sop
 
 export default function HeroStage({ variant = "wide", ready = false }) {
     const wide = variant === "wide";
+    const [sceneOn, setSceneOn] = useState(false);
+
+    // Esto sirve para montar el WebGL cuando la página ya cargó y el hilo principal queda libre
+    useEffect(() => {
+        let idle = 0;
+        let timer = 0;
+        const mount = () => {
+            if ("requestIdleCallback" in window) {
+                idle = window.requestIdleCallback(() => setSceneOn(true), { timeout: 2000 });
+            } else {
+                timer = setTimeout(() => setSceneOn(true), 300);
+            }
+        };
+
+        if (document.readyState === "complete") mount();
+        else window.addEventListener("load", mount, { once: true });
+
+        return () => {
+            window.removeEventListener("load", mount);
+            if (idle) window.cancelIdleCallback(idle);
+            clearTimeout(timer);
+        };
+    }, []);
 
     const layer = (delay) => ({
         opacity: ready ? 1 : 0,
@@ -28,7 +54,11 @@ export default function HeroStage({ variant = "wide", ready = false }) {
         <div className="relative w-full h-full flex flex-col">
             <div className="relative flex-1 min-h-0">
                 {/* Escena: terreno, núcleo y armazón */}
-                <HeroScene variant={variant} className="absolute inset-0" />
+                {sceneOn && (
+                    <Suspense fallback={null}>
+                        <HeroScene variant={variant} className="absolute inset-0 animate-fade-in" />
+                    </Suspense>
+                )}
 
                 {/* Isotipo: el centro del lienzo es donde apunta la cámara */}
                 <div

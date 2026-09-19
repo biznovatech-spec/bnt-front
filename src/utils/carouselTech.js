@@ -1,23 +1,23 @@
     export const carouselTechnologies = [
         {
             name: "React",
-            image: "/image/react-icon.png"
+            image: "/image/react-icon.webp"
         },
         {
             name: "Node JS",
-            image: "/image/node-icon.png"
+            image: "/image/node-icon.webp"
         },
         {
             name: "Flutter",
-            image: "/image/flutter-icon.png"
+            image: "/image/flutter-icon.webp"
         },
         {
             name: "Mysql",
-            image: "/image/mysql-icon.png"
+            image: "/image/mysql-icon.webp"
         },
         {
             name: "PostgreSQL",
-            image: "/image/postgresql-icon.png"
+            image: "/image/postgresql-icon.webp"
         },
         {
             name: "Docker",
@@ -25,19 +25,19 @@
         },
         {
             name: "Tailwind CSS",
-            image: "/image/tailwind-icon.png"
+            image: "/image/tailwind-icon.webp"
         },
         {
             name: "GitHub",
-            image: "/image/github-icon.png"
+            image: "/image/github-icon.webp"
         },
         {
             name: "CSS",
-            image: "/image/css-icon.png"
+            image: "/image/css-icon.webp"
         },
         {
             name: "Astro",
-            image: "/image/astro-icon.png"
+            image: "/image/astro-icon.webp"
         },
 
     ];

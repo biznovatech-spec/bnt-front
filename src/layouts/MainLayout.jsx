@@ -1,5 +1,4 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import ScrollToTop from "../utils/ScrollToTop";
@@ -19,14 +18,13 @@ export default function MainLayout() {
                 <ScrollToTop />
                 <Header />
                 <main className="flex-1 w-full overflow-x-clip pt-[var(--header-compact-height)]">
-                    <motion.div
+                    {/* En la carga inicial no se anima: el contenido pinta de inmediato (mejor LCP) */}
+                    <div
                         key={location.pathname}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className={location.key === "default" ? undefined : "animate-page-in"}
                     >
                         <Outlet />
-                    </motion.div>
+                    </div>
                 </main>
                 <div className="w-full mt-auto">
                     <Footer />

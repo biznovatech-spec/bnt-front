@@ -74,6 +74,7 @@ temp/
 *.backup
 *.old
 *.orig
+scripts/
 
 # ==================================================
 # Herramientas de testing y análisis

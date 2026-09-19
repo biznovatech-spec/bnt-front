@@ -16,7 +16,7 @@ export default function NosotrosPage() {
 
     const pillars = [
         { label: "Propósito", value: company.purpose },
-        { label: "Misión", value: company.mission },
+        { id: "mision-vision", label: "Misión", value: company.mission },
         { label: "Visión", value: company.vision },
     ];
 
@@ -39,40 +39,55 @@ export default function NosotrosPage() {
                             <Reveal delay={80}>
                                 <p className="copy max-w-[62ch]">{company.history}</p>
                             </Reveal>
-
-                            {heroImage && (
-                                <Reveal delay={160} dir="scale" className="mt-4">
-                                    <CutPanel surface="plate" cut="34px" className="p-10 flex items-center justify-center">
-                                        <div
-                                            aria-hidden="true"
-                                            className="deco absolute inset-0 grid-hairline opacity-70"
-                                            style={{ "--cell": "48px" }}
-                                        />
-                                        <img
-                                            src={heroImage.filename}
-                                            alt={heroImage.alt}
-                                            className="relative w-full max-w-sm object-contain"
-                                            loading="eager"
-                                        />
-                                    </CutPanel>
-                                </Reveal>
-                            )}
                         </div>
 
-                        <Reveal delay={140} dir="right" className="lg:col-span-5">
-                            <CutPanel cut="30px" className="p-8 lg:p-10 flex flex-col gap-7 lg:sticky lg:top-28">
-                                {pillars.map((pillar, i) => (
-                                    <div key={pillar.label} className={`flex flex-col gap-2.5 ${i > 0 ? "pt-7 border-t bd-hair" : ""}`}>
-                                        <span className="micro-label t-accent">
-                                            {pillar.label}
-                                        </span>
-                                        <p className={i === 0 ? "display-xs text-[1.1rem] t-1" : "copy text-[0.9rem]"}>
-                                            {pillar.value}
-                                        </p>
-                                    </div>
-                                ))}
-                            </CutPanel>
-                        </Reveal>
+                        {heroImage && (
+                            <Reveal delay={140} dir="right" className="lg:col-span-5">
+                                <CutPanel surface="plate" cut="34px" className="h-full p-10 flex items-center justify-center">
+                                    <div
+                                        aria-hidden="true"
+                                        className="deco absolute inset-0 grid-hairline opacity-70"
+                                        style={{ "--cell": "48px" }}
+                                    />
+                                    <img
+                                        src={heroImage.filename}
+                                        alt={heroImage.alt}
+                                        className="relative w-full max-w-sm object-contain"
+                                        loading="eager"
+                                    />
+                                </CutPanel>
+                            </Reveal>
+                        )}
+                    </div>
+                </Container>
+            </section>
+
+            {/* Propósito, misión y visión */}
+            <section className="w-full py-[var(--section-py)]" id="proposito">
+                <Container size="wide">
+                    <SectionHeader
+                        label="Propósito"
+                        index="01"
+                        title="Por qué existimos y hacia dónde vamos"
+                    />
+
+                    <div className="mt-14">
+                        {pillars.map((pillar, i) => (
+                            <Reveal key={pillar.label} delay={i * 55} dir="none">
+                                <article
+                                    id={pillar.id}
+                                    className="anchor row group grid-cols-1 md:grid-cols-[minmax(0,6rem)_minmax(0,1fr)_minmax(0,1.4fr)] gap-x-8 gap-y-3 py-9 md:py-11 items-start"
+                                >
+                                    <span aria-hidden="true" className="ghost-num text-[clamp(2.2rem,4vw,3.6rem)]">
+                                        {String(i + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3 className="display-caps text-[clamp(1.05rem,1.6vw,1.6rem)] t-1 max-w-[16ch] transition-colors duration-500 group-hover:t-accent">
+                                        {pillar.label}
+                                    </h3>
+                                    <p className="copy max-w-[56ch] md:pt-1">{pillar.value}</p>
+                                </article>
+                            </Reveal>
+                        ))}
                     </div>
                 </Container>
             </section>
@@ -80,12 +95,12 @@ export default function NosotrosPage() {
             {/* Valores */}
             <section
                 className="w-full py-[var(--section-py)] bg-canvas-2 border-y bd-hair"
-                id="proposito-valores"
+                id="valores"
             >
                 <Container size="wide">
                     <SectionHeader
                         label="Valores"
-                        index="01"
+                        index="02"
                         title="Cómo trabajamos, no solo qué hacemos"
                     />
 
@@ -112,7 +127,7 @@ export default function NosotrosPage() {
                 <Container size="wide">
                     <SectionHeader
                         label="Equipo"
-                        index="02"
+                        index="03"
                         title="Las personas detrás de cada proyecto"
                         description={teamDescription}
                     />
@@ -243,7 +258,7 @@ export default function NosotrosPage() {
                 </Container>
             </section>
 
-            <div className="py-[var(--section-py)]">
+            <div id="colaborar" className="anchor py-[var(--section-py)]">
                 <Container size="wide">
                     <CTASection
                         title="¿Quieres conocer cómo trabajamos de cerca?"
